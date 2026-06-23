@@ -35,7 +35,6 @@ body {
   min-height: 100vh;
 }
 
-/* ── HEADER ── */
 .header {
   padding: 20px 20px 12px;
   background: linear-gradient(180deg, #1E0820 0%, var(--bg) 100%);
@@ -50,7 +49,6 @@ body {
 }
 .header-left .date { font-size:0.75rem; color:var(--muted); margin-top:1px; }
 
-/* XP BAR */
 .xp-section { margin-top:12px; }
 .xp-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:5px; }
 .level-badge {
@@ -59,10 +57,7 @@ body {
   border-radius:20px; color:#fff;
 }
 .xp-label { font-size:0.72rem; color:var(--muted); }
-.xp-bar-track {
-  height:6px; background:var(--surface2); border-radius:10px; overflow:hidden;
-  position:relative;
-}
+.xp-bar-track { height:6px; background:var(--surface2); border-radius:10px; overflow:hidden; }
 .xp-bar-fill {
   height:100%; border-radius:10px;
   background: linear-gradient(90deg, var(--pink-deep), var(--pink), #FFB3D0);
@@ -76,10 +71,7 @@ body {
 }
 @keyframes shimmer { to { left:100%; } }
 
-/* STATS ROW */
-.stats-row {
-  display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:12px;
-}
+.stats-row { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:12px; }
 .stat-chip {
   background:var(--surface); border:1px solid var(--border); border-radius:10px;
   padding:8px 10px; text-align:center;
@@ -87,7 +79,6 @@ body {
 .stat-chip .val { font-size:1.1rem; font-weight:700; color:var(--pink); line-height:1; }
 .stat-chip .lbl { font-size:0.65rem; color:var(--muted); margin-top:2px; text-transform:uppercase; letter-spacing:.05em; }
 
-/* ── TABS ── */
 .tabs {
   display:flex; gap:6px; padding:12px 20px;
   overflow-x:auto; -webkit-overflow-scrolling:touch;
@@ -101,14 +92,10 @@ body {
 }
 .tab.active { background:var(--pink); border-color:var(--pink); color:#fff; font-weight:600; }
 
-/* ── MAIN ── */
 .main { padding:16px 20px 100px; }
 
-/* ── CATEGORY CARDS ── */
 .cat-grid { display:flex; flex-direction:column; gap:14px; }
-.cat-card {
-  background:var(--surface); border:1px solid var(--border); border-radius:16px; overflow:hidden;
-}
+.cat-card { background:var(--surface); border:1px solid var(--border); border-radius:16px; overflow:hidden; }
 .cat-head {
   display:flex; align-items:center; justify-content:space-between;
   padding:13px 16px; border-bottom:1px solid var(--border);
@@ -120,11 +107,7 @@ body {
   font-size:0.68rem; color:var(--muted); background:var(--surface2);
   border:1px solid var(--border); border-radius:20px; padding:2px 8px;
 }
-.add-btn {
-  background:transparent; border:none; color:var(--muted);
-  font-size:1.3rem; cursor:pointer; padding:0 4px; line-height:1;
-  transition:.15s;
-}
+.add-btn { background:transparent; border:none; color:var(--muted); font-size:1.3rem; cursor:pointer; padding:0 4px; line-height:1; transition:.15s; }
 .add-btn:hover { color:var(--pink); }
 
 .task-list { padding:10px 12px; display:flex; flex-direction:column; gap:5px; min-height:40px; }
@@ -133,7 +116,7 @@ body {
 .task-item {
   display:flex; align-items:flex-start; gap:9px;
   padding:10px 11px; border-radius:10px; background:var(--surface2);
-  border:1px solid transparent; transition:.15s; position:relative;
+  border:1px solid transparent; transition:.15s;
 }
 .task-item.done { opacity:.4; }
 .task-item.done .task-text { text-decoration:line-through; }
@@ -155,61 +138,29 @@ body {
 .tag-high  { background:#3A0E28; color:#FF69B0; }
 .tag-low   { background:#2A142A; color:#F4B8D8; }
 .tag-quick { background:#3D1030; color:#FFD6E8; }
-.task-del {
-  background:transparent; border:none; color:transparent;
-  cursor:pointer; font-size:0.75rem; padding:2px 3px; border-radius:4px;
-  transition:.15s; flex-shrink:0; margin-top:1px;
-}
+.task-del { background:transparent; border:none; color:transparent; cursor:pointer; font-size:0.75rem; padding:2px 3px; border-radius:4px; transition:.15s; flex-shrink:0; margin-top:1px; }
 .task-item:hover .task-del { color:var(--muted); }
 .task-del:hover { background:#3E1030; color:#FF85A8 !important; }
 
-/* ADD FORM */
 .add-form { padding:0 12px 12px; display:none; }
 .add-form.open { display:block; }
-.add-form-inner {
-  background:var(--surface2); border:1px solid var(--pink);
-  border-radius:10px; padding:11px; display:flex; flex-direction:column; gap:8px;
-}
-.add-input {
-  background:transparent; border:none; outline:none; color:var(--text);
-  font-size:0.875rem; width:100%; font-family:inherit; resize:none; min-height:34px;
-}
+.add-form-inner { background:var(--surface2); border:1px solid var(--pink); border-radius:10px; padding:11px; display:flex; flex-direction:column; gap:8px; }
+.add-input { background:transparent; border:none; outline:none; color:var(--text); font-size:0.875rem; width:100%; font-family:inherit; resize:none; min-height:34px; }
 .add-input::placeholder { color:var(--muted); }
 .add-opts { display:flex; gap:6px; flex-wrap:wrap; }
-.opt-sel {
-  background:var(--surface); border:1px solid var(--border); color:var(--text);
-  border-radius:6px; padding:4px 7px; font-size:0.72rem; cursor:pointer; outline:none; font-family:inherit;
-}
+.opt-sel { background:var(--surface); border:1px solid var(--border); color:var(--text); border-radius:6px; padding:4px 7px; font-size:0.72rem; cursor:pointer; outline:none; font-family:inherit; }
 .add-actions { display:flex; gap:6px; justify-content:flex-end; }
-.btn-cancel {
-  background:transparent; border:1px solid var(--border); color:var(--muted);
-  border-radius:7px; padding:5px 12px; font-size:0.78rem; cursor:pointer; font-family:inherit;
-}
-.btn-save {
-  background:var(--pink); border:none; color:#fff;
-  border-radius:7px; padding:5px 14px; font-size:0.78rem;
-  cursor:pointer; font-family:inherit; font-weight:600;
-}
+.btn-cancel { background:transparent; border:1px solid var(--border); color:var(--muted); border-radius:7px; padding:5px 12px; font-size:0.78rem; cursor:pointer; font-family:inherit; }
+.btn-save { background:var(--pink); border:none; color:#fff; border-radius:7px; padding:5px 14px; font-size:0.78rem; cursor:pointer; font-family:inherit; font-weight:600; }
 
-/* ── TIMING VIEW ── */
 .timing-view, .energy-view, .rewards-view, .profile-view { display:none; }
-.section-title {
-  font-size:0.78rem; font-weight:600; color:var(--muted);
-  text-transform:uppercase; letter-spacing:.08em;
-  margin-bottom:10px; display:flex; align-items:center; gap:8px;
-}
+.section-title { font-size:0.78rem; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; margin-bottom:10px; display:flex; align-items:center; gap:8px; }
 .section-title::after { content:''; flex:1; height:1px; background:var(--border); }
 .timing-section { margin-bottom:24px; }
-.ptask {
-  display:flex; align-items:center; gap:10px; padding:11px 13px;
-  background:var(--surface); border:1px solid var(--border); border-radius:10px; margin-bottom:6px;
-}
-.cat-pill {
-  font-size:0.65rem; padding:2px 8px; border-radius:20px; font-weight:600; flex-shrink:0;
-}
+.ptask { display:flex; align-items:center; gap:10px; padding:11px 13px; background:var(--surface); border:1px solid var(--border); border-radius:10px; margin-bottom:6px; }
+.cat-pill { font-size:0.65rem; padding:2px 8px; border-radius:20px; font-weight:600; flex-shrink:0; }
 .ptask-text { flex:1; font-size:0.85rem; }
 
-/* ── ENERGY VIEW ── */
 .energy-cols { display:flex; flex-direction:column; gap:16px; }
 .ecol { background:var(--surface); border:1px solid var(--border); border-radius:14px; overflow:hidden; }
 .ecol-head { padding:12px 15px; border-bottom:1px solid var(--border); font-size:0.85rem; font-weight:600; }
@@ -218,13 +169,10 @@ body {
 .etask-text { font-size:0.82rem; }
 .etask-meta { font-size:0.65rem; color:var(--muted); margin-top:3px; }
 
-/* ── REWARDS VIEW ── */
-.rewards-view { display:none; }
 .reward-hero {
   background: linear-gradient(135deg, #2A0820, #1E0F18);
   border:1px solid var(--pink-deep); border-radius:18px;
-  padding:24px 20px; text-align:center; margin-bottom:20px;
-  position:relative; overflow:hidden;
+  padding:24px 20px; text-align:center; margin-bottom:20px; position:relative; overflow:hidden;
 }
 .reward-hero::before {
   content:''; position:absolute; top:-40px; left:50%; transform:translateX(-50%);
@@ -238,17 +186,13 @@ body {
   margin-top:16px; padding:12px 28px; font-size:0.9rem; font-weight:700;
   background: linear-gradient(135deg, var(--pink-deep), var(--pink));
   border:none; color:#fff; border-radius:30px; cursor:pointer;
-  box-shadow:0 4px 20px var(--glow); transition:transform .15s, box-shadow .15s;
-  font-family:inherit;
+  box-shadow:0 4px 20px var(--glow); transition:transform .15s, box-shadow .15s; font-family:inherit;
 }
 .scratch-btn:hover { transform:scale(1.04); box-shadow:0 6px 28px var(--glow); }
 .scratch-btn:disabled { opacity:.5; cursor:default; transform:none; }
 
 .rewards-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-bottom:20px; }
-.reward-card {
-  background:var(--surface); border:1px solid var(--border); border-radius:14px;
-  padding:14px 12px; text-align:center; position:relative; overflow:hidden;
-}
+.reward-card { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:14px 12px; text-align:center; position:relative; overflow:hidden; }
 .reward-card.locked { opacity:.55; }
 .reward-card.unlocked { border-color:var(--pink-deep); }
 .reward-card .r-icon { font-size:1.6rem; margin-bottom:6px; }
@@ -259,127 +203,46 @@ body {
 
 .wishlist-section { margin-top:20px; }
 .wishlist-intro { font-size:0.82rem; color:var(--muted); margin-bottom:12px; line-height:1.5; }
-.wish-item {
-  display:flex; align-items:center; gap:10px; padding:11px 13px;
-  background:var(--surface); border:1px solid var(--border); border-radius:10px; margin-bottom:7px;
-}
+.wish-item { display:flex; align-items:center; gap:10px; padding:11px 13px; background:var(--surface); border:1px solid var(--border); border-radius:10px; margin-bottom:7px; }
 .wish-emoji { font-size:1.2rem; flex-shrink:0; }
 .wish-body { flex:1; }
 .wish-name { font-size:0.85rem; font-weight:500; }
 .wish-pts { font-size:0.7rem; color:var(--pink); margin-top:2px; }
 .wish-del { background:transparent; border:none; color:var(--muted); cursor:pointer; font-size:0.8rem; }
-.add-wish-btn {
-  width:100%; padding:10px; border:1px dashed var(--border); border-radius:10px;
-  background:transparent; color:var(--muted); font-size:0.82rem; cursor:pointer;
-  font-family:inherit; transition:.15s; margin-top:4px;
-}
+.add-wish-btn { width:100%; padding:10px; border:1px dashed var(--border); border-radius:10px; background:transparent; color:var(--muted); font-size:0.82rem; cursor:pointer; font-family:inherit; transition:.15s; margin-top:4px; }
 .add-wish-btn:hover { border-color:var(--pink); color:var(--pink); }
 
-/* ── PROFILE VIEW ── */
 .profile-section { margin-bottom:24px; }
 .profile-q { font-size:0.82rem; color:var(--muted); margin-bottom:8px; }
-.profile-input {
-  width:100%; background:var(--surface2); border:1px solid var(--border);
-  border-radius:8px; padding:10px 12px; color:var(--text); font-size:0.85rem;
-  font-family:inherit; outline:none; resize:none;
-}
+.profile-input { width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:8px; padding:10px 12px; color:var(--text); font-size:0.85rem; font-family:inherit; outline:none; resize:none; }
 .profile-input:focus { border-color:var(--pink); }
 .profile-tags-row { display:flex; gap:6px; flex-wrap:wrap; }
-.ptag {
-  padding:5px 12px; border-radius:20px; font-size:0.78rem;
-  border:1px solid var(--border); background:var(--surface2); color:var(--muted);
-  cursor:pointer; transition:.15s;
-}
+.ptag { padding:5px 12px; border-radius:20px; font-size:0.78rem; border:1px solid var(--border); background:var(--surface2); color:var(--muted); cursor:pointer; transition:.15s; }
 .ptag.selected { background:var(--pink-deep); border-color:var(--pink-deep); color:#fff; }
-.save-profile-btn {
-  width:100%; margin-top:8px; padding:11px; font-size:0.85rem; font-weight:600;
-  background: linear-gradient(135deg, var(--pink-deep), var(--pink));
-  border:none; color:#fff; border-radius:10px; cursor:pointer; font-family:inherit;
-}
+.save-profile-btn { width:100%; margin-top:8px; padding:11px; font-size:0.85rem; font-weight:600; background: linear-gradient(135deg, var(--pink-deep), var(--pink)); border:none; color:#fff; border-radius:10px; cursor:pointer; font-family:inherit; }
 
-/* ── REWARD POPUP ── */
-.popup-overlay {
-  position:fixed; inset:0; background:rgba(18,8,14,0.85);
-  display:flex; align-items:center; justify-content:center;
-  z-index:200; opacity:0; pointer-events:none; transition:opacity .3s;
-  padding:20px;
-}
+.popup-overlay { position:fixed; inset:0; background:rgba(18,8,14,0.85); display:flex; align-items:center; justify-content:center; z-index:200; opacity:0; pointer-events:none; transition:opacity .3s; padding:20px; }
 .popup-overlay.open { opacity:1; pointer-events:all; }
-.popup-box {
-  background: linear-gradient(145deg, #2A0820, #1A0F18);
-  border:1px solid var(--pink-deep); border-radius:24px;
-  padding:32px 24px; text-align:center; max-width:340px; width:100%;
-  transform:scale(0.85); transition:transform .4s cubic-bezier(.34,1.56,.64,1);
-  position:relative; overflow:hidden;
-}
+.popup-box { background: linear-gradient(145deg, #2A0820, #1A0F18); border:1px solid var(--pink-deep); border-radius:24px; padding:32px 24px; text-align:center; max-width:340px; width:100%; transform:scale(0.85); transition:transform .4s cubic-bezier(.34,1.56,.64,1); position:relative; overflow:hidden; }
 .popup-overlay.open .popup-box { transform:scale(1); }
-.popup-glow {
-  position:absolute; top:-60px; left:50%; transform:translateX(-50%);
-  width:200px; height:200px; border-radius:50%;
-  background:radial-gradient(circle, rgba(240,111,170,0.25), transparent 70%);
-  pointer-events:none;
-}
+.popup-glow { position:absolute; top:-60px; left:50%; transform:translateX(-50%); width:200px; height:200px; border-radius:50%; background:radial-gradient(circle, rgba(240,111,170,0.25), transparent 70%); pointer-events:none; }
 .popup-emoji { font-size:3.5rem; margin-bottom:12px; animation:bounce .6s ease; }
 @keyframes bounce { 0%,100%{transform:scale(1)} 50%{transform:scale(1.2)} }
 .popup-title { font-size:1.1rem; font-weight:700; color:var(--pink-light); margin-bottom:6px; }
 .popup-body { font-size:0.85rem; color:var(--muted); line-height:1.5; margin-bottom:8px; }
 .popup-xp { font-size:1.4rem; font-weight:800; color:var(--pink); margin:10px 0; }
-.popup-reward-reveal {
-  background:var(--surface2); border:1px solid var(--pink-deep);
-  border-radius:12px; padding:14px; margin:12px 0; font-size:0.88rem;
-  color:var(--pink-light); line-height:1.5;
-}
-.popup-close {
-  margin-top:8px; padding:10px 28px; font-size:0.85rem; font-weight:600;
-  background: linear-gradient(135deg, var(--pink-deep), var(--pink));
-  border:none; color:#fff; border-radius:30px; cursor:pointer; font-family:inherit;
-}
+.popup-reward-reveal { background:var(--surface2); border:1px solid var(--pink-deep); border-radius:12px; padding:14px; margin:12px 0; font-size:0.88rem; color:var(--pink-light); line-height:1.5; }
+.popup-close { margin-top:8px; padding:10px 28px; font-size:0.85rem; font-weight:600; background: linear-gradient(135deg, var(--pink-deep), var(--pink)); border:none; color:#fff; border-radius:30px; cursor:pointer; font-family:inherit; }
 
-/* CONFETTI */
-.confetti-piece {
-  position:fixed; width:8px; height:8px; border-radius:2px;
-  pointer-events:none; z-index:300; animation:fall linear forwards;
-}
-@keyframes fall {
-  0%  { transform:translateY(-20px) rotate(0deg); opacity:1; }
-  100%{ transform:translateY(100vh) rotate(720deg); opacity:0; }
-}
+.confetti-piece { position:fixed; width:8px; height:8px; border-radius:2px; pointer-events:none; z-index:300; animation:fall linear forwards; }
+@keyframes fall { 0%{transform:translateY(-20px) rotate(0deg);opacity:1} 100%{transform:translateY(100vh) rotate(720deg);opacity:0} }
 
-/* STREAK BANNER */
-.streak-banner {
-  background: linear-gradient(135deg, #3A0E28, #2A0820);
-  border:1px solid var(--pink-deep); border-radius:12px;
-  padding:10px 14px; display:flex; align-items:center; gap:10px;
-  margin-bottom:14px;
-}
+.streak-banner { background: linear-gradient(135deg, #3A0E28, #2A0820); border:1px solid var(--pink-deep); border-radius:12px; padding:10px 14px; display:flex; align-items:center; gap:10px; margin-bottom:14px; }
 .streak-fire { font-size:1.4rem; }
 .streak-text { font-size:0.82rem; }
 .streak-text strong { color:var(--pink); }
 
-/* BOTTOM NAV */
-.bottom-nav {
-  position:fixed; bottom:0; left:0; right:0;
-  background:rgba(18,8,14,0.95); backdrop-filter:blur(12px);
-  border-top:1px solid var(--border);
-  display:grid; grid-template-columns:repeat(5,1fr);
-  padding:8px 0 20px; z-index:100;
-}
-.nav-item {
-  display:flex; flex-direction:column; align-items:center; gap:3px;
-  cursor:pointer; padding:4px 0; transition:.15s;
-}
-.nav-item .nav-icon { font-size:1.2rem; }
-.nav-item .nav-label { font-size:0.6rem; color:var(--muted); }
-.nav-item.active .nav-label { color:var(--pink); }
-.nav-item.active .nav-icon { filter:drop-shadow(0 0 6px var(--pink)); }
-
-/* INSTALL BANNER */
-.install-banner {
-  background: linear-gradient(135deg, #2A0E28, #1E0F18);
-  border:1px solid var(--pink-deep); border-radius:12px;
-  padding:12px 14px; display:flex; align-items:center; gap:10px;
-  margin-bottom:14px;
-}
+.install-banner { background: linear-gradient(135deg, #2A0E28, #1E0F18); border:1px solid var(--pink-deep); border-radius:12px; padding:12px 14px; display:flex; align-items:center; gap:10px; margin-bottom:14px; }
 .install-banner p { font-size:0.78rem; color:var(--muted); line-height:1.4; flex:1; }
 .install-banner p strong { color:var(--pink-light); }
 .install-close { background:transparent; border:none; color:var(--muted); cursor:pointer; font-size:1rem; }
@@ -387,7 +250,6 @@ body {
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="header">
   <div class="header-top">
     <div class="header-left">
@@ -409,7 +271,6 @@ body {
   </div>
 </div>
 
-<!-- TABS -->
 <div class="tabs">
   <div class="tab active" onclick="switchTab('tasks')">📋 Tasks</div>
   <div class="tab" onclick="switchTab('timing')">⏰ Timing</div>
@@ -418,62 +279,37 @@ body {
   <div class="tab" onclick="switchTab('profile')">💖 Profile</div>
 </div>
 
-<!-- MAIN -->
 <div class="main">
 
-<!-- INSTALL BANNER -->
 <div class="install-banner" id="installBanner" style="display:none">
   <span>📱</span>
   <p><strong>Add to Home Screen!</strong> Open in Safari → Share → "Add to Home Screen" to use as an app.</p>
   <button class="install-close" onclick="document.getElementById('installBanner').style.display='none'">✕</button>
 </div>
 
-<!-- STREAK BANNER -->
 <div class="streak-banner" id="streakBanner" style="display:none">
   <span class="streak-fire">🔥</span>
   <div class="streak-text">You're on a <strong id="streakDays">0</strong>-day streak! Keep it up!</div>
 </div>
 
-<!-- TASKS VIEW -->
 <div id="tasksView">
   <div class="cat-grid" id="catGrid"></div>
 </div>
 
-<!-- TIMING VIEW -->
 <div id="timingView" class="timing-view">
-  <div class="timing-section">
-    <div class="section-title">🔴 Now — urgent</div>
-    <div id="pNow"></div>
-  </div>
-  <div class="timing-section">
-    <div class="section-title">🟡 Soon — this week</div>
-    <div id="pSoon"></div>
-  </div>
-  <div class="timing-section">
-    <div class="section-title">🟢 Later — on the radar</div>
-    <div id="pLater"></div>
-  </div>
+  <div class="timing-section"><div class="section-title">🔴 Now — urgent</div><div id="pNow"></div></div>
+  <div class="timing-section"><div class="section-title">🟡 Soon — this week</div><div id="pSoon"></div></div>
+  <div class="timing-section"><div class="section-title">🟢 Later — on the radar</div><div id="pLater"></div></div>
 </div>
 
-<!-- ENERGY VIEW -->
 <div id="energyView" class="energy-view">
   <div class="energy-cols">
-    <div class="ecol">
-      <div class="ecol-head" style="color:#FF85A8">🧠 High Focus — sit down and grind</div>
-      <div class="ecol-list" id="eHigh"></div>
-    </div>
-    <div class="ecol">
-      <div class="ecol-head" style="color:#F5B0D5">☁️ Low Effort — half-asleep mode</div>
-      <div class="ecol-list" id="eLow"></div>
-    </div>
-    <div class="ecol">
-      <div class="ecol-head" style="color:#FFD6E8">⚡ Quick Win — under 5 min</div>
-      <div class="ecol-list" id="eQuick"></div>
-    </div>
+    <div class="ecol"><div class="ecol-head" style="color:#FF85A8">🧠 High Focus — sit down and grind</div><div class="ecol-list" id="eHigh"></div></div>
+    <div class="ecol"><div class="ecol-head" style="color:#F5B0D5">☁️ Low Effort — half-asleep mode</div><div class="ecol-list" id="eLow"></div></div>
+    <div class="ecol"><div class="ecol-head" style="color:#FFD6E8">⚡ Quick Win — under 5 min</div><div class="ecol-list" id="eQuick"></div></div>
   </div>
 </div>
 
-<!-- REWARDS VIEW -->
 <div id="rewardsView" class="rewards-view">
   <div class="reward-hero">
     <div class="popup-glow"></div>
@@ -483,12 +319,10 @@ body {
     <button class="scratch-btn" id="scratchBtn" onclick="openScratch()">✨ Surprise Me!</button>
     <div style="font-size:0.72rem;color:var(--muted);margin-top:8px" id="scratchHint">Complete tasks to earn surprise rewards</div>
   </div>
-
   <div style="margin-bottom:12px">
     <div class="section-title">Reward milestones</div>
     <div class="rewards-grid" id="rewardsGrid"></div>
   </div>
-
   <div class="wishlist-section">
     <div class="section-title">Your wishlist 🛍️</div>
     <div class="wishlist-intro">Things you want — I'll use this to give you personalized reward ideas when you hit milestones!</div>
@@ -497,16 +331,11 @@ body {
   </div>
 </div>
 
-<!-- PROFILE VIEW -->
 <div id="profileView" class="profile-view">
   <div style="margin-bottom:20px">
     <div class="section-title">Tell me about you 💖</div>
-    <p style="font-size:0.8rem;color:var(--muted);line-height:1.5;margin-bottom:16px">
-      The more I know, the better I can surprise you with rewards that actually mean something to you.
-      Claude reads this to personalize your experience over time.
-    </p>
+    <p style="font-size:0.8rem;color:var(--muted);line-height:1.5;margin-bottom:16px">The more I know, the better I can surprise you with rewards that actually mean something to you.</p>
   </div>
-
   <div class="profile-section">
     <div class="profile-q">What are your go-to treats? 🍰</div>
     <div class="profile-tags-row" id="treatTags">
@@ -522,7 +351,6 @@ body {
       <div class="ptag" onclick="toggleTag(this)">Music/Spotify 🎵</div>
     </div>
   </div>
-
   <div class="profile-section">
     <div class="profile-q">What do you shop for most? 🛍️</div>
     <div class="profile-tags-row" id="shopTags">
@@ -535,7 +363,6 @@ body {
       <div class="ptag" onclick="toggleTag(this)">Food/snacks</div>
     </div>
   </div>
-
   <div class="profile-section">
     <div class="profile-q">What motivates you most right now? 🌟</div>
     <div class="profile-tags-row" id="motiveTags">
@@ -547,9 +374,8 @@ body {
       <div class="ptag" onclick="toggleTag(this)">Leveling up</div>
     </div>
   </div>
-
   <div class="profile-section">
-    <div class="profile-q">What apps/sites do you open most? (helps me personalize rewards)</div>
+    <div class="profile-q">What apps/sites do you open most?</div>
     <div class="profile-tags-row" id="appTags">
       <div class="ptag" onclick="toggleTag(this)">TikTok</div>
       <div class="ptag" onclick="toggleTag(this)">Instagram</div>
@@ -561,18 +387,15 @@ body {
       <div class="ptag" onclick="toggleTag(this)">Depop/ThredUp</div>
     </div>
   </div>
-
   <div class="profile-section">
     <div class="profile-q">Anything else I should know about you? ✨</div>
     <textarea class="profile-input" id="profileNotes" rows="3" placeholder="e.g. I'm a construction management student, I love pink, I want to land a full-time job after graduation..."></textarea>
   </div>
-
   <button class="save-profile-btn" onclick="saveProfile()">Save my profile 💖</button>
 </div>
 
-</div><!-- end main -->
+</div>
 
-<!-- REWARD POPUP -->
 <div class="popup-overlay" id="popup">
   <div class="popup-box">
     <div class="popup-glow"></div>
@@ -585,7 +408,6 @@ body {
   </div>
 </div>
 
-<!-- WISH ADD POPUP -->
 <div class="popup-overlay" id="wishPopup">
   <div class="popup-box">
     <div class="popup-title">Add to your wishlist 🛍️</div>
@@ -602,17 +424,12 @@ body {
 </div>
 
 <script>
-// ══════════════════════════════════════════
-// DATA — Claude updates TASKS and PROFILE
-// ══════════════════════════════════════════
-
 const CATEGORIES = [
   { id:'school',   label:'School & Coursework', color:'#E86FA8', icon:'📚', xp:15 },
   { id:'work',     label:'Work & Internship',   color:'#C45B8A', icon:'💼', xp:20 },
   { id:'personal', label:'Personal Goals',       color:'#F0A0C0', icon:'🌱', xp:10 },
   { id:'admin',    label:'Admin & Life',         color:'#D966A0', icon:'🗂️', xp:8  },
 ];
-
 const CAT_STYLES = {
   school:   { bg:'#3D1030', color:'#F48BC0' },
   work:     { bg:'#2E0D22', color:'#E07AAA' },
@@ -622,30 +439,19 @@ const CAT_STYLES = {
 
 // ── TASKS (Claude updates this array) ──
 const TASKS = [
-  { id:'t0', cat:'school',   text:'Tell Claude your first real school task to add here!',  timing:'later', energy:'high',  done:false },
+  { id:'t0', cat:'school',   text:'Tell Claude your first real school task to add here!',       timing:'later', energy:'high',  done:false },
   { id:'t1', cat:'work',     text:'Tell Claude your first work task — e.g. "submit timesheet"', timing:'soon',  energy:'quick', done:false },
-  { id:'t2', cat:'personal', text:'Tell Claude a personal goal — e.g. "walk 3x this week"',timing:'later', energy:'low',   done:false },
-  { id:'t3', cat:'admin',    text:'Tell Claude an admin task — e.g. "pay rent"',            timing:'now',   energy:'quick', done:false },
+  { id:'t2', cat:'personal', text:'Tell Claude a personal goal — e.g. "walk 3x this week"',     timing:'later', energy:'low',   done:false },
+  { id:'t3', cat:'admin',    text:'Tell Claude an admin task — e.g. "pay rent"',                timing:'now',   energy:'quick', done:false },
 ];
 
-// ── PROFILE (Claude updates this) ──
-const PROFILE = {
-  treats:    [],
-  shops:     [],
-  motivators:[],
-  apps:      [],
-  notes:     '',
-};
-
-// ── REWARD MILESTONES ──
 const MILESTONES = [
-  { icon:'☕', title:'Treat yourself',    desc:'Grab a Starbucks or boba — you earned it!',       pts:50,  xpRequired:50  },
-  { icon:'💅', title:'Nail appointment',  desc:'Book that nail appointment you\'ve been eyeing.',  pts:150, xpRequired:150 },
-  { icon:'🛍️', title:'Mini shopping haul',desc:'Buy that one thing in your cart you keep eyeing.', pts:300, xpRequired:300 },
-  { icon:'✨', title:'Big reward',        desc:'Something from your wishlist — your choice!',       pts:500, xpRequired:500 },
+  { icon:'☕', title:'Treat yourself',     desc:'Grab a Starbucks or boba — you earned it!',                pts:50,  xpRequired:50  },
+  { icon:'💅', title:'Nail appointment',   desc:'Book that nail appointment you\'ve been eyeing.',           pts:150, xpRequired:150 },
+  { icon:'🛍️', title:'Mini shopping haul', desc:'Buy that one thing in your cart you keep eyeing.',          pts:300, xpRequired:300 },
+  { icon:'✨', title:'Big reward',         desc:'Something from your wishlist — your choice!',               pts:500, xpRequired:500 },
 ];
 
-// ── SURPRISE REWARD POOL (personalized based on profile) ──
 const BASE_REWARDS = [
   { emoji:'☕', msg:'Treat yourself to a Starbucks or boba run!' },
   { emoji:'💄', msg:'Pick one thing from Sephora — even just a lip gloss.' },
@@ -661,7 +467,6 @@ const BASE_REWARDS = [
   { emoji:'🏆', msg:'You\'re crushing it. Screenshot your progress and celebrate!' },
 ];
 
-// ── STATE (stored in localStorage) ──
 let state = JSON.parse(localStorage.getItem('rubyState') || '{}');
 if (!state.xp)          state.xp = 0;
 if (!state.tasksToday)  state.tasksToday = 0;
@@ -669,42 +474,31 @@ if (!state.streak)      state.streak = 0;
 if (!state.lastDate)    state.lastDate = '';
 if (!state.rewardPts)   state.rewardPts = 0;
 if (!state.wishlist)    state.wishlist = [];
-if (!state.scratchUsed) state.scratchUsed = false;
-if (!state.profile)     state.profile = PROFILE;
-if (state.installDismissed === undefined) state.installDismissed = false;
-
+if (!state.profile)     state.profile = {};
 function saveState() { localStorage.setItem('rubyState', JSON.stringify(state)); }
 
-// ── LEVELS ──
 const LEVELS = [
-  { min:0,   max:100,  name:'Spark ✨',       color:'#F48BC0' },
-  { min:100, max:250,  name:'Rising ⭐',       color:'#F06FAA' },
-  { min:250, max:500,  name:'Glowing 🌸',      color:'#E86FA8' },
-  { min:500, max:900,  name:'Blazing 🔥',      color:'#C45B8A' },
-  { min:900, max:1500, name:'Unstoppable 💪',  color:'#A0308A' },
-  { min:1500,max:9999, name:'Legendary 👑',    color:'#8B1A6B' },
+  { min:0,   max:100,  name:'Spark ✨' },
+  { min:100, max:250,  name:'Rising ⭐' },
+  { min:250, max:500,  name:'Glowing 🌸' },
+  { min:500, max:900,  name:'Blazing 🔥' },
+  { min:900, max:1500, name:'Unstoppable 💪' },
+  { min:1500,max:9999, name:'Legendary 👑' },
 ];
 function getLevel(xp) { return LEVELS.find(l => xp >= l.min && xp < l.max) || LEVELS[LEVELS.length-1]; }
 
-// ── STREAK CHECK ──
 function checkStreak() {
   const today = new Date().toDateString();
   if (state.lastDate === today) return;
   const yesterday = new Date(Date.now()-86400000).toDateString();
-  if (state.lastDate === yesterday) {
-    state.streak++;
-  } else if (state.lastDate && state.lastDate !== yesterday) {
-    state.streak = 1;
-  } else {
-    state.streak = state.streak || 0;
-  }
+  if (state.lastDate === yesterday) { state.streak++; }
+  else if (state.lastDate && state.lastDate !== yesterday) { state.streak = 1; }
+  else { state.streak = state.streak || 0; }
   state.tasksToday = 0;
-  state.scratchUsed = false;
   state.lastDate = today;
   saveState();
 }
 
-// ── RENDER HEADER ──
 function renderHeader() {
   const lvl = getLevel(state.xp);
   const pct = Math.min(100, Math.round(((state.xp - lvl.min) / (lvl.max - lvl.min)) * 100));
@@ -714,15 +508,12 @@ function renderHeader() {
   document.getElementById('statTasks').textContent = state.tasksToday;
   document.getElementById('statStreak').textContent = state.streak + '🔥';
   document.getElementById('statPoints').textContent = state.rewardPts;
-
-  const streakBanner = document.getElementById('streakBanner');
   if (state.streak >= 2) {
-    streakBanner.style.display = 'flex';
+    document.getElementById('streakBanner').style.display = 'flex';
     document.getElementById('streakDays').textContent = state.streak;
   }
 }
 
-// ── CATEGORY VIEW ──
 function buildCatGrid() {
   const grid = document.getElementById('catGrid');
   grid.innerHTML = '';
@@ -765,8 +556,7 @@ function buildCatGrid() {
             <button class="btn-save" onclick="addTask('${cat.id}')">Add ✨</button>
           </div>
         </div>
-      </div>
-    `;
+      </div>`;
     grid.appendChild(card);
   });
 }
@@ -776,21 +566,19 @@ function taskHTML(t) {
   const tlbl = {now:'🔴 Now',soon:'🟡 Soon',later:'🟢 Later'};
   const emap = {high:'tag-high',low:'tag-low',quick:'tag-quick'};
   const elbl = {high:'🧠 High Focus',low:'☁️ Low Effort',quick:'⚡ Quick Win'};
-  return `
-    <div class="task-item ${t.done?'done':''}" id="item-${t.id}">
-      <div class="task-check ${t.done?'on':''}" onclick="checkTask('${t.id}')"></div>
-      <div class="task-body">
-        <div class="task-text">${esc(t.text)}</div>
-        <div class="task-tags">
-          <span class="tag ${tmap[t.timing]||'tag-later'}">${tlbl[t.timing]||t.timing}</span>
-          <span class="tag ${emap[t.energy]||'tag-high'}">${elbl[t.energy]||t.energy}</span>
-        </div>
+  return `<div class="task-item ${t.done?'done':''}" id="item-${t.id}">
+    <div class="task-check ${t.done?'on':''}" onclick="checkTask('${t.id}')"></div>
+    <div class="task-body">
+      <div class="task-text">${esc(t.text)}</div>
+      <div class="task-tags">
+        <span class="tag ${tmap[t.timing]||'tag-later'}">${tlbl[t.timing]||t.timing}</span>
+        <span class="tag ${emap[t.energy]||'tag-high'}">${elbl[t.energy]||t.energy}</span>
       </div>
-      <button class="task-del" onclick="delTask('${t.id}')">✕</button>
-    </div>`;
+    </div>
+    <button class="task-del" onclick="delTask('${t.id}')">✕</button>
+  </div>`;
 }
 
-// ── TIMING VIEW ──
 function buildTimingView() {
   ['now','soon','later'].forEach(tim => {
     const el = document.getElementById('p' + cap(tim));
@@ -798,141 +586,94 @@ function buildTimingView() {
     el.innerHTML = tasks.length ? tasks.map(t => {
       const cat = CATEGORIES.find(c => c.id === t.cat);
       const cs = CAT_STYLES[t.cat];
-      return `<div class="ptask">
-        <span class="cat-pill" style="background:${cs.bg};color:${cs.color}">${cat.icon} ${cat.label}</span>
-        <span class="ptask-text">${esc(t.text)}</span>
-      </div>`;
+      return `<div class="ptask"><span class="cat-pill" style="background:${cs.bg};color:${cs.color}">${cat.icon} ${cat.label}</span><span class="ptask-text">${esc(t.text)}</span></div>`;
     }).join('') : '<div class="empty">Nothing here 🌸</div>';
   });
 }
 
-// ── ENERGY VIEW ──
 function buildEnergyView() {
-  [['high','eHigh'],['low','eLow'],['quick','eQuick']].forEach(([nrg, id]) => {
+  [['high','eHigh'],['low','eLow'],['quick','eQuick']].forEach(([nrg,id]) => {
     const el = document.getElementById(id);
     const tasks = TASKS.filter(t => t.energy === nrg && !t.done);
     el.innerHTML = tasks.length ? tasks.map(t => {
       const cat = CATEGORIES.find(c => c.id === t.cat);
-      return `<div class="etask">
-        <div class="etask-text">${esc(t.text)}</div>
-        <div class="etask-meta">${cat.icon} ${cat.label}</div>
-      </div>`;
+      return `<div class="etask"><div class="etask-text">${esc(t.text)}</div><div class="etask-meta">${cat.icon} ${cat.label}</div></div>`;
     }).join('') : '<div class="empty">Nothing here 🌸</div>';
   });
 }
 
-// ── REWARDS VIEW ──
 function buildRewardsView() {
   document.getElementById('rewardPts').textContent = state.rewardPts;
-
-  // scratch button state
   const btn = document.getElementById('scratchBtn');
   const hint = document.getElementById('scratchHint');
-  if (state.rewardPts >= 50) {
-    btn.disabled = false;
-    hint.textContent = '🎀 You have enough points — surprise yourself!';
-  } else {
-    btn.disabled = true;
-    hint.textContent = `Complete ${Math.ceil((50 - state.rewardPts)/10)} more tasks to unlock a surprise`;
-  }
-
-  // milestones grid
-  const grid = document.getElementById('rewardsGrid');
-  grid.innerHTML = MILESTONES.map(m => {
+  if (state.rewardPts >= 50) { btn.disabled = false; hint.textContent = '🎀 You have enough points — surprise yourself!'; }
+  else { btn.disabled = true; hint.textContent = `Complete ${Math.ceil((50-state.rewardPts)/10)} more tasks to unlock a surprise`; }
+  document.getElementById('rewardsGrid').innerHTML = MILESTONES.map(m => {
     const unlocked = state.rewardPts >= m.xpRequired;
-    return `<div class="reward-card ${unlocked?'unlocked':'locked'}">
-      ${!unlocked ? '<span class="lock-icon">🔒</span>' : ''}
-      <div class="r-icon">${m.icon}</div>
-      <div class="r-title">${m.title}</div>
+    return `<div class="reward-card ${unlocked?'unlocked':'locked'}">${!unlocked?'<span class="lock-icon">🔒</span>':''}
+      <div class="r-icon">${m.icon}</div><div class="r-title">${m.title}</div>
       <div class="r-pts">${m.pts} pts</div>
-      <div class="r-lock">${unlocked ? '✅ Unlocked!' : `${m.xpRequired - state.rewardPts} pts away`}</div>
-    </div>`;
+      <div class="r-lock">${unlocked?'✅ Unlocked!':`${m.xpRequired-state.rewardPts} pts away`}</div></div>`;
   }).join('');
-
-  // wishlist
   const wl = document.getElementById('wishlistItems');
   wl.innerHTML = state.wishlist.length ? state.wishlist.map((w,i) => `
     <div class="wish-item">
       <div class="wish-emoji">${w.emoji}</div>
-      <div class="wish-body">
-        <div class="wish-name">${esc(w.name)}</div>
-        <div class="wish-pts">${w.pts} pts goal ${state.rewardPts >= w.pts ? '✅' : `· ${w.pts - state.rewardPts} to go`}</div>
-      </div>
+      <div class="wish-body"><div class="wish-name">${esc(w.name)}</div>
+      <div class="wish-pts">${w.pts} pts goal ${state.rewardPts>=w.pts?'✅':`· ${w.pts-state.rewardPts} to go`}</div></div>
       <button class="wish-del" onclick="delWish(${i})">✕</button>
     </div>`).join('') : '<div class="empty">Add things you want — I\'ll use them as rewards! 🎀</div>';
 }
 
-// ── PROFILE VIEW ──
 function buildProfileView() {
-  // restore saved profile tags
   const saved = state.profile || {};
   ['treatTags','shopTags','motiveTags','appTags'].forEach(id => {
-    const key = { treatTags:'treats', shopTags:'shops', motiveTags:'motivators', appTags:'apps' }[id];
-    const saved_arr = saved[key] || [];
-    document.querySelectorAll(`#${id} .ptag`).forEach(el => {
-      if (saved_arr.includes(el.textContent.trim())) el.classList.add('selected');
-    });
+    const key = {treatTags:'treats',shopTags:'shops',motiveTags:'motivators',appTags:'apps'}[id];
+    const arr = saved[key] || [];
+    document.querySelectorAll(`#${id} .ptag`).forEach(el => { if (arr.includes(el.textContent.trim())) el.classList.add('selected'); });
   });
   if (saved.notes) document.getElementById('profileNotes').value = saved.notes;
 }
 
-// ── INTERACTIONS ──
 function checkTask(id) {
   const t = TASKS.find(x => x.id === id);
   if (!t) return;
   const wasDone = t.done;
   t.done = !t.done;
-
   if (!wasDone) {
-    // completing
     const cat = CATEGORIES.find(c => c.id === t.cat);
     const xpGain = cat ? cat.xp : 10;
     const ptGain = Math.ceil(xpGain * 0.8);
-    state.xp += xpGain;
-    state.rewardPts += ptGain;
-    state.tasksToday++;
+    state.xp += xpGain; state.rewardPts += ptGain; state.tasksToday++;
     if (!state.lastDate) { state.lastDate = new Date().toDateString(); state.streak = 1; }
     saveState();
-
     showTaskPopup(t, xpGain, ptGain);
     if (Math.random() < 0.3 && state.tasksToday > 1) setTimeout(dropConfetti, 400);
   } else {
-    // unchecking
     const cat = CATEGORIES.find(c => c.id === t.cat);
     const xpGain = cat ? cat.xp : 10;
-    state.xp = Math.max(0, state.xp - xpGain);
-    state.rewardPts = Math.max(0, state.rewardPts - Math.ceil(xpGain * 0.8));
-    state.tasksToday = Math.max(0, state.tasksToday - 1);
+    state.xp = Math.max(0,state.xp-xpGain); state.rewardPts = Math.max(0,state.rewardPts-Math.ceil(xpGain*0.8)); state.tasksToday = Math.max(0,state.tasksToday-1);
     saveState();
   }
-
   rebuildAll();
 }
 
 function showTaskPopup(task, xp, pts) {
   const msgs = [
-    ['🌸', 'Task crushed!',   'One step closer to your goals. Keep going!'],
-    ['✨', 'You\'re glowing!','That ADHD brain just hyperfocused on a W.'],
-    ['🎀', 'Look at you go!', 'Task complete. The dopamine is real today.'],
-    ['💖', 'Yes queen!',      'You did the thing. Every task counts.'],
-    ['🔥', 'On fire!',        'Streak energy is building. Don\'t stop now.'],
+    ['🌸','Task crushed!','One step closer to your goals. Keep going!'],
+    ['✨','You\'re glowing!','That ADHD brain just hyperfocused on a W.'],
+    ['🎀','Look at you go!','Task complete. The dopamine is real today.'],
+    ['💖','Yes queen!','You did the thing. Every task counts.'],
+    ['🔥','On fire!','Streak energy is building. Don\'t stop now.'],
   ];
-  const [emoji, title, body] = msgs[Math.floor(Math.random() * msgs.length)];
-
+  const [emoji,title,body] = msgs[Math.floor(Math.random()*msgs.length)];
   document.getElementById('popupEmoji').textContent = emoji;
   document.getElementById('popupTitle').textContent = title;
   document.getElementById('popupBody').textContent = body;
   document.getElementById('popupXP').textContent = `+${xp} XP · +${pts} reward pts`;
   document.getElementById('popupReward').style.display = 'none';
-
-  // milestone reveal
-  const milestone = MILESTONES.find(m => m.xpRequired === state.rewardPts || (state.rewardPts >= m.xpRequired && state.rewardPts - pts < m.xpRequired));
-  if (milestone) {
-    const rev = document.getElementById('popupReward');
-    rev.style.display = 'block';
-    rev.textContent = `🎁 Milestone unlocked: ${milestone.icon} ${milestone.title} — ${milestone.desc}`;
-  }
-
+  const milestone = MILESTONES.find(m => state.rewardPts >= m.xpRequired && state.rewardPts - pts < m.xpRequired);
+  if (milestone) { const rev = document.getElementById('popupReward'); rev.style.display='block'; rev.textContent=`🎁 Milestone unlocked: ${milestone.icon} ${milestone.title} — ${milestone.desc}`; }
   openPopup();
   if (state.tasksToday >= 3) dropConfetti();
 }
@@ -940,180 +681,93 @@ function showTaskPopup(task, xp, pts) {
 function openScratch() {
   if (state.rewardPts < 50) return;
   const pool = [...BASE_REWARDS];
-  // personalize based on profile
   const prof = state.profile || {};
   if ((prof.treats||[]).includes('Starbucks ☕')) pool.push({emoji:'☕',msg:'You earned a Starbucks run. Go get your drink, babe.'});
   if ((prof.treats||[]).includes('Sephora 💄')) pool.push({emoji:'💄',msg:'Time to browse Sephora. One thing, you deserve it.'});
   if ((prof.treats||[]).includes('Nails 💅')) pool.push({emoji:'💅',msg:'Book a nail appointment. That\'s your reward.'});
-  if ((prof.apps||[]).includes('Pinterest')) pool.push({emoji:'🎀',msg:'Uninterrupted Pinterest time. Pin everything.'});
-  if (state.wishlist.length > 0) {
-    const w = state.wishlist[Math.floor(Math.random() * state.wishlist.length)];
-    pool.push({emoji:w.emoji, msg:`Treat yourself to: ${w.name}! You earned it!`});
-  }
-
-  const reward = pool[Math.floor(Math.random() * pool.length)];
-  state.rewardPts = Math.max(0, state.rewardPts - 50);
-  state.scratchUsed = true;
-  saveState();
-
+  if (state.wishlist.length > 0) { const w = state.wishlist[Math.floor(Math.random()*state.wishlist.length)]; pool.push({emoji:w.emoji,msg:`Treat yourself to: ${w.name}! You earned it!`}); }
+  const reward = pool[Math.floor(Math.random()*pool.length)];
+  state.rewardPts = Math.max(0,state.rewardPts-50); saveState();
   document.getElementById('popupEmoji').textContent = reward.emoji;
   document.getElementById('popupTitle').textContent = '🎁 Your surprise reward!';
   document.getElementById('popupBody').textContent = 'You worked hard. Here\'s what you get:';
   document.getElementById('popupXP').textContent = '−50 reward pts';
-  const rev = document.getElementById('popupReward');
-  rev.style.display = 'block';
-  rev.textContent = reward.msg;
-  openPopup();
-  dropConfetti();
-  buildRewardsView();
-  renderHeader();
+  const rev = document.getElementById('popupReward'); rev.style.display='block'; rev.textContent=reward.msg;
+  openPopup(); dropConfetti(); buildRewardsView(); renderHeader();
 }
 
-function delTask(id) {
-  const i = TASKS.findIndex(x => x.id === id);
-  if (i > -1) { TASKS.splice(i, 1); rebuildAll(); }
-}
-
-function toggleForm(catId) {
-  const f = document.getElementById('form-' + catId);
-  f.classList.toggle('open');
-  if (f.classList.contains('open')) document.getElementById('inp-' + catId).focus();
-}
-
+function delTask(id) { const i=TASKS.findIndex(x=>x.id===id); if(i>-1){TASKS.splice(i,1);rebuildAll();} }
+function toggleForm(catId) { const f=document.getElementById('form-'+catId); f.classList.toggle('open'); if(f.classList.contains('open')) document.getElementById('inp-'+catId).focus(); }
 function addTask(catId) {
-  const text = document.getElementById('inp-' + catId).value.trim();
+  const text = document.getElementById('inp-'+catId).value.trim();
   if (!text) return;
-  TASKS.push({
-    id: 't' + Date.now(), cat: catId, text,
-    timing: document.getElementById('tim-' + catId).value,
-    energy: document.getElementById('nrg-' + catId).value,
-    done: false
-  });
-  document.getElementById('inp-' + catId).value = '';
-  toggleForm(catId);
-  rebuildAll();
+  TASKS.push({id:'t'+Date.now(),cat:catId,text,timing:document.getElementById('tim-'+catId).value,energy:document.getElementById('nrg-'+catId).value,done:false});
+  document.getElementById('inp-'+catId).value=''; toggleForm(catId); rebuildAll();
 }
-
 function toggleTag(el) { el.classList.toggle('selected'); }
-
 function saveProfile() {
   state.profile = {
-    treats:     [...document.querySelectorAll('#treatTags .ptag.selected')].map(e => e.textContent.trim()),
-    shops:      [...document.querySelectorAll('#shopTags .ptag.selected')].map(e => e.textContent.trim()),
-    motivators: [...document.querySelectorAll('#motiveTags .ptag.selected')].map(e => e.textContent.trim()),
-    apps:       [...document.querySelectorAll('#appTags .ptag.selected')].map(e => e.textContent.trim()),
-    notes:      document.getElementById('profileNotes').value,
+    treats:[...document.querySelectorAll('#treatTags .ptag.selected')].map(e=>e.textContent.trim()),
+    shops:[...document.querySelectorAll('#shopTags .ptag.selected')].map(e=>e.textContent.trim()),
+    motivators:[...document.querySelectorAll('#motiveTags .ptag.selected')].map(e=>e.textContent.trim()),
+    apps:[...document.querySelectorAll('#appTags .ptag.selected')].map(e=>e.textContent.trim()),
+    notes:document.getElementById('profileNotes').value,
   };
-  saveState();
-  showQuickToast('Profile saved! I\'ll use this to personalize your rewards 💖');
+  saveState(); showQuickToast('Profile saved! 💖');
 }
-
-function openAddWish() {
-  document.getElementById('wishPopup').classList.add('open');
-}
+function openAddWish() { document.getElementById('wishPopup').classList.add('open'); }
 function closeWishPopup() { document.getElementById('wishPopup').classList.remove('open'); }
 function saveWish() {
-  const emoji = document.getElementById('wishEmoji').value.trim() || '🎁';
-  const name  = document.getElementById('wishName').value.trim();
-  const pts   = parseInt(document.getElementById('wishPts').value) || 200;
-  if (!name) return;
-  state.wishlist.push({ emoji, name, pts });
-  saveState();
-  closeWishPopup();
-  buildRewardsView();
-  document.getElementById('wishEmoji').value = '';
-  document.getElementById('wishName').value = '';
-  document.getElementById('wishPts').value = '';
+  const emoji=document.getElementById('wishEmoji').value.trim()||'🎁';
+  const name=document.getElementById('wishName').value.trim();
+  const pts=parseInt(document.getElementById('wishPts').value)||200;
+  if(!name) return;
+  state.wishlist.push({emoji,name,pts}); saveState(); closeWishPopup(); buildRewardsView();
+  document.getElementById('wishEmoji').value=''; document.getElementById('wishName').value=''; document.getElementById('wishPts').value='';
 }
-function delWish(i) {
-  state.wishlist.splice(i, 1); saveState(); buildRewardsView();
-}
-
-// ── POPUP ──
+function delWish(i) { state.wishlist.splice(i,1); saveState(); buildRewardsView(); }
 function openPopup() { document.getElementById('popup').classList.add('open'); }
 function closePopup() { document.getElementById('popup').classList.remove('open'); renderHeader(); }
-
-// ── CONFETTI ──
 function dropConfetti() {
-  const colors = ['#F06FAA','#F9A8D4','#C45B8A','#FFD6E8','#fff','#FFB3D0'];
-  for (let i = 0; i < 40; i++) {
-    const el = document.createElement('div');
-    el.className = 'confetti-piece';
-    el.style.cssText = `
-      left:${Math.random()*100}vw;
-      top:-10px;
-      background:${colors[Math.floor(Math.random()*colors.length)]};
-      animation-duration:${1.2 + Math.random()*1.5}s;
-      animation-delay:${Math.random()*0.4}s;
-      transform:rotate(${Math.random()*360}deg);
-      border-radius:${Math.random()>0.5?'50%':'2px'};
-    `;
-    document.body.appendChild(el);
-    setTimeout(() => el.remove(), 3000);
+  const colors=['#F06FAA','#F9A8D4','#C45B8A','#FFD6E8','#fff','#FFB3D0'];
+  for(let i=0;i<40;i++){
+    const el=document.createElement('div'); el.className='confetti-piece';
+    el.style.cssText=`left:${Math.random()*100}vw;top:-10px;background:${colors[Math.floor(Math.random()*colors.length)]};animation-duration:${1.2+Math.random()*1.5}s;animation-delay:${Math.random()*0.4}s;transform:rotate(${Math.random()*360}deg);border-radius:${Math.random()>0.5?'50%':'2px'};`;
+    document.body.appendChild(el); setTimeout(()=>el.remove(),3000);
   }
 }
-
-// ── TOAST ──
 function showQuickToast(msg) {
-  const t = document.createElement('div');
-  t.textContent = msg;
-  t.style.cssText = `
-    position:fixed;bottom:90px;left:50%;transform:translateX(-50%);
-    background:var(--pink-deep);color:#fff;padding:10px 18px;
-    border-radius:20px;font-size:0.8rem;z-index:400;
-    animation:fadeUpOut 2.5s forwards;white-space:nowrap;
-  `;
-  document.head.insertAdjacentHTML('beforeend',`<style>@keyframes fadeUpOut{0%{opacity:0;transform:translateX(-50%) translateY(10px)}15%{opacity:1;transform:translateX(-50%) translateY(0)}80%{opacity:1}100%{opacity:0;transform:translateX(-50%) translateY(-10px)}}</style>`);
-  document.body.appendChild(t);
-  setTimeout(() => t.remove(), 2600);
+  const t=document.createElement('div'); t.textContent=msg;
+  t.style.cssText='position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--pink-deep);color:#fff;padding:10px 18px;border-radius:20px;font-size:0.8rem;z-index:400;white-space:nowrap;opacity:0;transition:opacity .3s;';
+  document.body.appendChild(t); setTimeout(()=>t.style.opacity='1',10); setTimeout(()=>{t.style.opacity='0';setTimeout(()=>t.remove(),300);},2500);
 }
 
-// ── TABS ──
-let currentTab = 'tasks';
+let currentTab='tasks';
 function switchTab(tab) {
-  currentTab = tab;
-  document.getElementById('tasksView').style.display   = tab==='tasks'   ? 'block':'none';
-  document.getElementById('timingView').style.display  = tab==='timing'  ? 'block':'none';
-  document.getElementById('energyView').style.display  = tab==='energy'  ? 'block':'none';
-  document.getElementById('rewardsView').style.display = tab==='rewards' ? 'block':'none';
-  document.getElementById('profileView').style.display = tab==='profile' ? 'block':'none';
-  document.querySelectorAll('.tab').forEach((el,i) => {
-    el.classList.toggle('active', ['tasks','timing','energy','rewards','profile'][i] === tab);
-  });
-  if (tab==='timing')  buildTimingView();
-  if (tab==='energy')  buildEnergyView();
-  if (tab==='rewards') buildRewardsView();
-  if (tab==='profile') buildProfileView();
+  currentTab=tab;
+  document.getElementById('tasksView').style.display   = tab==='tasks'  ?'block':'none';
+  document.getElementById('timingView').style.display  = tab==='timing' ?'block':'none';
+  document.getElementById('energyView').style.display  = tab==='energy' ?'block':'none';
+  document.getElementById('rewardsView').style.display = tab==='rewards'?'block':'none';
+  document.getElementById('profileView').style.display = tab==='profile'?'block':'none';
+  document.querySelectorAll('.tab').forEach((el,i)=>{ el.classList.toggle('active',['tasks','timing','energy','rewards','profile'][i]===tab); });
+  if(tab==='timing') buildTimingView();
+  if(tab==='energy') buildEnergyView();
+  if(tab==='rewards') buildRewardsView();
+  if(tab==='profile') buildProfileView();
 }
 
-// ── REBUILD ALL ──
-function rebuildAll() {
-  buildCatGrid();
-  if (currentTab==='timing')  buildTimingView();
-  if (currentTab==='energy')  buildEnergyView();
-  if (currentTab==='rewards') buildRewardsView();
-  renderHeader();
-}
+function rebuildAll() { buildCatGrid(); if(currentTab==='timing')buildTimingView(); if(currentTab==='energy')buildEnergyView(); if(currentTab==='rewards')buildRewardsView(); renderHeader(); }
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
 
-// ── UTILS ──
-function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function cap(s) { return s.charAt(0).toUpperCase()+s.slice(1); }
+if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+const isStandalone=window.navigator.standalone;
+if(isIOS&&!isStandalone) document.getElementById('installBanner').style.display='flex';
 
-// ── PWA SERVICE WORKER ──
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('./sw.js').catch(()=>{});
-}
-
-// ── INSTALL BANNER (iOS hint) ──
-const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-const isStandalone = window.navigator.standalone;
-if (isIOS && !isStandalone && !state.installDismissed) {
-  document.getElementById('installBanner').style.display = 'flex';
-}
-
-// ── INIT ──
 checkStreak();
-document.getElementById('dateDisplay').textContent = new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+document.getElementById('dateDisplay').textContent=new Date().toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
 buildCatGrid();
 renderHeader();
 </script>
