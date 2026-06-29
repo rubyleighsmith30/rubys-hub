@@ -2,7 +2,7 @@
   "name": "Ruby's Hub",
   "short_name": "Ruby's Hub",
   "description": "Ruby's personal task & reward hub",
-  "start_url": "./RubyHub.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#12080E",
   "theme_color": "#F06FAA",
