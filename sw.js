@@ -1,5 +1,5 @@
-const CACHE = 'rubyhub-v4';
-const ASSETS = ['./', './index.html', './manifest.json', './feed.json', './classic.html'];
+const CACHE = 'rubyhub-v5';
+const ASSETS = ['./', './index.html', './manifest.json', './lock.json', './feed.enc', './classic.html'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).catch(() => {}));
@@ -15,7 +15,7 @@ self.addEventListener('activate', e => {
 
 // Network first, so updates show right away; cached copy when offline.
 self.addEventListener('fetch', e => {
-  if (e.request.method !== 'GET') return;
+  if (e.request.method !== 'GET' || !e.request.url.startsWith(self.location.origin)) return;
   e.respondWith(
     fetch(e.request).then(res => {
       const copy = res.clone();
