@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Ruby's Hub">
+<meta name="theme-color" content="#FDF6F0">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<title>Ruby's Hub</title>
+<style>
+:root{
+  --paper:#FDF6F0; --card:#fff; --line:#F0DCE4; --line2:#F5E6EC;
+  --ink:#3E2A4E; --text:#4A2635; --soft:#6B4A5E; --muted:#7A5A6C; --faint:#A88497;
+  --pink:#E0559A; --pinkdeep:#B03A70; --blush:#FCE3EF; --blush2:#F6E6EE; --hover:#FFF3F8;
+  --school:#8A63C9; --personal:#C45BB0; --club:#D14B87; --grade:#3E9C7B; --someday:#B9A3C9;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper)}
+body{font-family:Nunito,-apple-system,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased}
+button,input,select{font-family:inherit}
+.hand{font-family:Caveat,cursive}
+.wrap{max-width:520px;margin:0 auto;padding:calc(18px + env(safe-area-inset-top)) 16px calc(40px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:14px}
+.top{display:flex;justify-content:space-between;align-items:center}
+.top h1{margin:0;font-family:Caveat,cursive;font-weight:700;font-size:38px;color:var(--ink)}
+.pill{font-size:12px;font-weight:800;color:#fff;background:var(--pink);padding:6px 12px;border-radius:999px;white-space:nowrap}
+.quote{background:var(--blush);border-radius:4px;padding:14px 16px;transform:rotate(-1deg);box-shadow:0 2px 6px rgba(120,60,90,.12)}
+.quote p{margin:0;font-family:Caveat,cursive;font-size:24px;line-height:1.2;color:#5C3550;text-align:center}
+.weekhead .lbl{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#8A5A72}
+.weekhead .dates{white-space:nowrap;font-family:Caveat,cursive;font-size:28px;line-height:1;color:var(--ink)}
+.tabs{display:flex;gap:6px;background:var(--blush2);border-radius:999px;padding:4px;position:sticky;top:calc(6px + env(safe-area-inset-top));z-index:5}
+.tabs button{flex:1;min-height:44px;border:none;border-radius:999px;font-size:14px;font-weight:800;cursor:pointer;background:transparent;color:var(--soft)}
+.tabs button.on{background:var(--pink);color:#fff}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px}
+.days{overflow:hidden}
+.day{border-bottom:1px solid var(--line2)}
+.day:last-child{border-bottom:none}
+.dayrow{width:100%;min-height:58px;border:none;background:#fff;display:flex;align-items:center;gap:12px;padding:10px 14px;cursor:pointer;text-align:left;color:inherit}
+.day.open .dayrow{background:var(--hover)}
+.dname{width:48px;flex-shrink:0}
+.dname b{display:block;font-family:Caveat,cursive;font-size:26px;line-height:1;color:var(--ink);font-weight:700}
+.dname small{display:block;font-size:11px;font-weight:700;color:var(--muted)}
+.day.today .dname b{color:var(--pink)}
+.prev{flex:1;font-size:13.5px;color:var(--soft);line-height:1.3;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.frac{width:62px;flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.frac span{font-size:12px;font-weight:800;color:var(--pinkdeep)}
+.bar{width:56px;height:6px;background:#F6E1EA;border-radius:999px;overflow:hidden}
+.bar i{display:block;height:6px;background:var(--pink);border-radius:999px;transition:width .3s}
+.daybody{padding:4px 12px 14px 70px;display:flex;flex-direction:column;gap:6px;background:#FFFBF8}
+.task{display:flex;align-items:center;gap:8px}
+.chk{width:36px;height:36px;border:none;background:transparent;padding:0;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.ttext{flex:1;font-size:14.5px;line-height:1.35;color:var(--ink)}
+.ttext small{display:block;font-size:11.5px;color:var(--muted);font-weight:700}
+.task.done .ttext{color:var(--faint);text-decoration:line-through}
+.x{width:32px;height:32px;border:none;background:transparent;color:var(--faint);font-size:19px;cursor:pointer;flex-shrink:0}
+.addrow{display:flex;gap:6px;margin-top:4px}
+.addrow input{flex:1;min-width:0;border:1.5px solid #F0C6D8;border-radius:999px;padding:0 14px;min-height:42px;font-size:14px;outline:none;background:#fff;color:var(--ink)}
+.addrow input:focus{border-color:var(--pink)}
+.btn{min-height:42px;border:none;background:var(--pink);color:#fff;border-radius:999px;padding:0 16px;font-weight:800;font-size:13.5px;cursor:pointer}
+.btn.ghost{background:#fff;color:var(--pinkdeep);border:1.5px solid var(--pink)}
+.btn.ghost.on{background:var(--pink);color:#fff}
+.btn.plain{background:#fff;color:var(--soft);border:1px solid var(--line)}
+.pick{display:flex;flex-direction:column;gap:4px;font-size:12px;font-weight:800;color:#8A5A72;margin-top:4px}
+select{min-height:40px;border:1px solid var(--line);border-radius:12px;padding:0 10px;font-size:14px;color:var(--ink);background:#fff}
+select.daysel{border-radius:999px;min-height:36px;font-size:12.5px;font-weight:800;color:var(--pinkdeep);border:1.5px solid var(--pink)}
+.box{padding:14px;display:flex;flex-direction:column;gap:10px}
+.box.dashed{border:1.5px dashed #E8A9C6}
+.box h2{margin:0;font-family:Caveat,cursive;font-weight:700;font-size:25px;color:var(--ink)}
+.prow{display:flex;align-items:center;gap:8px}
+.prow span{flex:1;font-size:14px;color:var(--ink)}
+.empty{font-size:13px;color:var(--muted)}
+.hint{font-size:13px;color:var(--soft);line-height:1.4}
+.ev{padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.evtop{display:flex;gap:10px;align-items:baseline}
+.dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;display:inline-block}
+.evtop .t{flex:1;font-size:15px;font-weight:700;color:var(--ink);line-height:1.35}
+.evtop .t small{display:block;font-size:12px;font-weight:700;color:var(--muted)}
+.evtop .w{font-family:Caveat,cursive;font-size:21px;color:var(--pinkdeep);white-space:nowrap}
+.evbtns{display:flex;gap:8px}
+.evbtns .btn{min-height:44px}
+.evbtns .btn:first-child{flex:1}
+.linkbtn{min-height:44px;border:none;background:transparent;font-size:13px;font-weight:800;color:var(--pinkdeep);text-decoration:underline;cursor:pointer}
+.counter{display:flex;align-items:center;gap:12px}
+.counter .n{font-family:Caveat,cursive;font-size:38px;line-height:1;color:var(--ink)}
+.round{width:46px;height:46px;border-radius:50%;border:none;background:var(--pink);color:#fff;font-size:22px;cursor:pointer}
+.round.out{background:#fff;border:1.5px solid var(--line);color:var(--ink)}
+.hub{display:block;text-align:center;background:var(--blush);border-radius:999px;padding:13px;font-size:14px;font-weight:800;color:var(--pinkdeep);text-decoration:none}
+.course h3{margin:0;font-family:Caveat,cursive;font-size:25px;color:var(--ink);flex:1}
+.gi{display:flex;gap:10px;border-top:1px solid var(--line2);padding-top:7px}
+.gi b{width:42px;font-size:12px;color:#2F7A5F}
+.gi span{flex:1;font-size:14px;line-height:1.35;color:var(--ink)}
+.weekhead{display:flex;justify-content:space-between;align-items:flex-end;gap:8px}
+.headbtns{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.chip{min-height:36px;border:1px solid var(--line);background:#fff;color:var(--soft);border-radius:999px;padding:0 12px;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap}
+.chip.warn{border-color:var(--pink);color:var(--pinkdeep)}
+.back{align-self:flex-start;min-height:44px;border:none;background:transparent;color:var(--pinkdeep);font-size:15px;font-weight:800;cursor:pointer;padding:0}
+button.hub{width:100%;border:none;cursor:pointer}
+#hubOverlay{position:fixed;inset:0;z-index:30;background:#fff;display:none;flex-direction:column}
+.hubbar{display:flex;align-items:center;gap:14px;padding:calc(6px + env(safe-area-inset-top)) 14px 6px;border-bottom:1px solid var(--line);background:var(--paper)}
+.hubbar span{font-family:Caveat,cursive;font-size:24px;color:var(--ink)}
+#hubFrame{flex:1;border:0;width:100%;background:#fff}
+.foot{text-align:center;font-size:12.5px;color:var(--muted);display:flex;flex-direction:column;gap:6px;margin-top:6px}
+.foot a{color:var(--pinkdeep);font-weight:800}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%) translateY(120px);background:var(--ink);color:#fff;padding:10px 18px;border-radius:999px;font-size:13.5px;font-weight:700;transition:transform .25s;z-index:20;display:flex;gap:12px;align-items:center}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast button{background:transparent;border:none;color:#F79CC5;font-weight:900;cursor:pointer;font-size:13.5px}
+.sr{position:absolute;left:-9999px}
+body.mini .wrap{padding:12px 12px 20px;gap:10px}
+body.mini .top h1{font-size:30px}
+body.mini .quote p{font-size:20px}
+body.widget{background:#FDF6F0}
+body.widget .wrap{padding:14px 14px 10px;gap:8px;max-width:none}
+.wtop{display:flex;justify-content:space-between;align-items:baseline}
+.wtop b{font-family:Caveat,cursive;font-size:28px;color:var(--ink);line-height:1}
+.wtop span{font-size:12px;font-weight:800;color:var(--pinkdeep)}
+.wbar{height:6px;background:#F6E1EA;border-radius:999px;overflow:hidden}
+.wbar i{display:block;height:6px;background:var(--pink)}
+.witem{display:flex;gap:8px;align-items:flex-start;font-size:14px;line-height:1.3;color:var(--ink)}
+.witem.done{color:var(--faint);text-decoration:line-through}
+.witem .dot{margin-top:5px}
+.wlbl{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#8A5A72;margin-top:4px}
+.wq{font-family:Caveat,cursive;font-size:18px;color:#5C3550;text-align:center;margin-top:2px}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<div class="toast" id="toast"><span id="toastMsg"></span><button id="toastUndo" type="button">Undo</button></div>
+
+<script>
+// ───────── RubyHub 2.1 ─────────
+// Tasks are saved in this browser AND synced through a private GitHub note (secret gist),
+// so phone, Mac, and the desktop widget all match. Claude's check-ins read the same note.
+// Canvas due dates, grading, and club events come from feed.json, which Claude refreshes.
+const KEY = 'rubyHub2';
+const TOKEN_KEY = 'rubyHubSyncToken';
+const GIST_KEY = 'rubyHubGistId';
+const SYNC_FILE = 'rubyhub-sync.enc';
+const OLD_SYNC_FILE = 'rubyhub-sync.json';
+const KEYSTORE = 'rubyHubKey';
+const HUB_PATH = "Finder › Downloads › Ruby's Grading Hub.html";
+const MINI = /[?&]mini=1/.test(location.search);
+const WIDGET = /[?&]widget=1/.test(location.search);
+if (MINI) document.body.classList.add('mini');
+if (WIDGET) document.body.classList.add('widget');
+const COLORS = { school:'#8A63C9', personal:'#C45BB0', club:'#D14B87', leftover:'#C45BB0', someday:'#B9A3C9' };
+const DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function pad(n){ return String(n).padStart(2,'0'); }
+function ymd(d){ return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate()); }
+function parse(s){ const [y,m,d] = s.split('-').map(Number); return new Date(y, m-1, d); }
+function addDays(d, n){ const x = new Date(d); x.setDate(x.getDate()+n); return x; }
+function monday(d){ const x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); const k = (x.getDay()+6)%7; return addDays(x, -k); }
+function nice(s){ const d = parse(s); return MON[d.getMonth()]+' '+d.getDate(); }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function rid(){ return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+function now(){ return Date.now(); }
+function timeStr(ms){ const d = new Date(ms); let h = d.getHours(); const ap = h >= 12 ? 'pm' : 'am'; h = h % 12 || 12; return h + ':' + pad(d.getMinutes()) + ap; }
+
+// ───── passphrase lock (AES-256-GCM, key from PBKDF2) ─────
+let CK = null, LOCK = null;
+const te = new TextEncoder(), td = new TextDecoder();
+const b2u = s => Uint8Array.from(atob(s), c => c.charCodeAt(0));
+function u2b(u){ let s = ''; for (let i = 0; i < u.length; i += 8192) s += String.fromCharCode.apply(null, u.subarray(i, i + 8192)); return btoa(s); }
+async function deriveKey(pass){
+  const base = await crypto.subtle.importKey('raw', te.encode(pass), 'PBKDF2', false, ['deriveKey']);
+  return crypto.subtle.deriveKey({ name:'PBKDF2', salt:b2u(LOCK.salt), iterations:LOCK.iter, hash:'SHA-256' }, base, { name:'AES-GCM', length:256 }, true, ['encrypt','decrypt']);
+}
+async function decStr(blob, key){
+  const j = typeof blob === 'string' ? JSON.parse(blob) : blob;
+  const pt = await crypto.subtle.decrypt({ name:'AES-GCM', iv:b2u(j.iv) }, key || CK, b2u(j.ct));
+  return td.decode(pt);
+}
+async function encStr(str){
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const ct = await crypto.subtle.encrypt({ name:'AES-GCM', iv }, CK, te.encode(str));
+  return JSON.stringify({ v:1, iv:u2b(iv), ct:u2b(new Uint8Array(ct)) });
+}
+async function tryKey(key){ try { return (await decStr(LOCK.check, key)) === 'rubyhub-ok'; } catch(e) { return false; } }
+async function unlockSaved(){
+  let raw = ''; try { raw = localStorage.getItem(KEYSTORE) || ''; } catch(e) {}
+  if (!raw || !LOCK) return false;
+  try {
+    const key = await crypto.subtle.importKey('raw', b2u(raw), 'AES-GCM', true, ['encrypt','decrypt']);
+    if (await tryKey(key)) { CK = key; return true; }
+  } catch(e) {}
+  return false;
+}
+async function unlockWith(pass){
+  const key = await deriveKey(pass);
+  if (!(await tryKey(key))) return false;
+  CK = key;
+  try { localStorage.setItem(KEYSTORE, u2b(new Uint8Array(await crypto.subtle.exportKey('raw', key)))); } catch(e) {}
+  return true;
+}
+
+const TODAY = ymd(new Date());
+const WEEK0 = monday(new Date());
+const WEEK = Array.from({length:7}, (_,i) => ymd(addDays(WEEK0, i)));
+const WEEKKEY = WEEK[0];
+const inWeek = s => s && s >= WEEK[0] && s <= WEEK[6];
+
+// One-time setup link: …/#sync=TOKEN saves the sync key on this device
+(function(){
+  const m = location.hash.match(/sync=([A-Za-z0-9_]+)/);
+  const k = location.hash.match(/key=([A-Za-z0-9+\/=]+)/);
+  if (m) { try { localStorage.setItem(TOKEN_KEY, m[1]); } catch(e) {} }
+  if (k) { try { localStorage.setItem(KEYSTORE, k[1]); } catch(e) {} }
+  if ((m || k) && !WIDGET) history.replaceState(null, '', location.pathname + location.search);
+})();
+
+// ───── state ─────
+// tasks: { id: {id,text,sub,kind,date,pool,done,u,del} }   (u = last changed time; del = deleted)
+// ev / evDone / graded: { key: {v, u} }
+function blank(){ return { v:2, tasks:{}, ev:{}, evDone:{}, graded:{}, open:TODAY, week:null }; }
+let S = null;
+try { S = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch(e) { S = null; }
+if (S && S.v !== 2) {
+  // upgrade from the first version (array of tasks)
+  const old = S; S = blank();
+  (old.tasks || []).forEach(t => {
+    const id = t.src ? 'c:' + t.src : rid();
+    S.tasks[id] = { id, text:t.text, sub:t.sub, kind:t.kind, date:t.date, pool:t.pool, done:!!t.done, u:now() };
+  });
+  Object.keys(old.ev || {}).forEach(k => S.ev[k] = { v:old.ev[k], u:now() });
+  Object.keys(old.evDone || {}).forEach(k => S.evDone[k] = { v:!!old.evDone[k], u:now() });
+  Object.keys(old.graded || {}).forEach(k => S.graded[k] = { v:old.graded[k], u:now() });
+  S.week = old.week;
+}
+if (!S) {
+  S = blank();
+  try {
+    const old = JSON.parse(localStorage.getItem('rubyState') || '{}');
+    const starter = ['t0','t1','t2','t3'];
+    (old.tasks || []).filter(t => !t.done && !starter.includes(t.id) && t.text).forEach(t => {
+      const id = 'old:' + t.id;
+      S.tasks[id] = { id, text:t.text, kind:'personal', date:null, pool:'leftover', done:false, u:1 };
+    });
+  } catch(e) {}
+}
+let TAB = (location.hash.match(/^#(week|club|grading|sync)$/) || [])[1] || 'week';
+
+function rollover(){
+  // New week: unfinished tasks from past days become leftovers; finished ones clear out
+  Object.values(S.tasks).forEach(t => {
+    if (t.del || !t.date || t.date >= WEEK[0]) return;
+    if (t.done) { t.del = true; t.u = now(); }
+    else { t.date = null; t.pool = 'leftover'; t.u = now(); }
+  });
+  if (S.week !== WEEKKEY) { S.week = WEEKKEY; S.open = TODAY; }
+}
+rollover();
+
+function live(){ return Object.values(S.tasks).filter(t => !t.del); }
+function getv(map, k, d){ return map[k] ? map[k].v : d; }
+function setv(map, k, v){ map[k] = { v, u:now() }; }
+
+let saveTimer = null;
+function save(skipSync){
+  try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e) {}
+  if (!skipSync) { clearTimeout(saveTimer); saveTimer = setTimeout(sync, 1200); }
+}
+save(true);
+
+// ───── sync (private GitHub note) ─────
+let SYNC = { state: 'off', at: 0, msg: '' };
+function token(){ try { return localStorage.getItem(TOKEN_KEY) || ''; } catch(e) { return ''; } }
+function gh(path, opts){
+  return fetch('https://api.github.com' + path, Object.assign({ cache:'no-store' }, opts || {}, {
+    headers: { 'Authorization': 'Bearer ' + token(), 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' }
+  })).then(r => { if (!r.ok) throw new Error(r.status); return r.json(); });
+}
+function mergeMaps(a, b){
+  const out = Object.assign({}, a);
+  Object.keys(b || {}).forEach(k => { if (!out[k] || (b[k].u || 0) > (out[k].u || 0)) out[k] = b[k]; });
+  return out;
+}
+function shareable(){ return { v:2, tasks:S.tasks, ev:S.ev, evDone:S.evDone, graded:S.graded, savedAt:new Date().toISOString() }; }
+async function sealed(){ return encStr(JSON.stringify(shareable())); }
+function mergeIn(remote){
+  S.tasks = mergeMaps(S.tasks, remote.tasks); S.ev = mergeMaps(S.ev, remote.ev);
+  S.evDone = mergeMaps(S.evDone, remote.evDone); S.graded = mergeMaps(S.graded, remote.graded);
+}
+async function findGist(){
+  let id = ''; try { id = localStorage.getItem(GIST_KEY) || ''; } catch(e) {}
+  if (id) return id;
+  const list = await gh('/gists?per_page=100');
+  const g = list.find(x => x.files && x.files[SYNC_FILE]);
+  if (g) id = g.id;
+  else {
+    // First locked sync: pull in the old unlocked note, then replace it with a locked one
+    const old = list.find(x => x.files && x.files[OLD_SYNC_FILE]);
+    if (old) {
+      try { const og = await gh('/gists/' + old.id); mergeIn(JSON.parse(og.files[OLD_SYNC_FILE].content || '{}')); } catch(e) {}
+    }
+    const made = await gh('/gists', { method:'POST', body: JSON.stringify({ public:false, description:"RubyHub sync (locked)", files:{ [SYNC_FILE]:{ content: await sealed() } } }) });
+    id = made.id;
+    if (old) { try { await fetch('https://api.github.com/gists/' + old.id, { method:'DELETE', headers:{ 'Authorization':'Bearer ' + token(), 'Accept':'application/vnd.github+json' } }); } catch(e) {} }
+  }
+  try { localStorage.setItem(GIST_KEY, id); } catch(e) {}
+  return id;
+}
+let syncing = false, again = false;
+async function sync(){
+  if (!token() || !CK) { SYNC.state = 'off'; return; }
+  if (syncing) { again = true; return; }
+  syncing = true; SYNC.state = 'busy'; paintSync();
+  const before = JSON.stringify([S.tasks, S.ev, S.evDone, S.graded]);
+  try {
+    const id = await findGist();
+    const g = await gh('/gists/' + id);
+    const f = g.files && g.files[SYNC_FILE];
+    let remote = {};
+    if (f) {
+      let txt = f.content;
+      if (f.truncated && f.raw_url) txt = await fetch(f.raw_url, { cache:'no-store' }).then(r => r.text());
+      try { remote = txt ? JSON.parse(await decStr(txt)) : {}; } catch(e) { remote = {}; }
+    }
+    mergeIn(remote);
+    rollover();
+    const after = JSON.stringify([S.tasks, S.ev, S.evDone, S.graded]);
+    const remoteStr = JSON.stringify([remote.tasks || {}, remote.ev || {}, remote.evDone || {}, remote.graded || {}]);
+    save(true);
+    if (after !== remoteStr && !WIDGET) {
+      await gh('/gists/' + id, { method:'PATCH', body: JSON.stringify({ files:{ [SYNC_FILE]:{ content: await sealed() } } }) });
+    }
+    SYNC.state = 'ok'; SYNC.at = now(); SYNC.msg = '';
+    if (before !== after) render(); else paintSync();
+  } catch(e) {
+    SYNC.state = 'err';
+    SYNC.msg = String(e.message) === '401' ? 'Sync key not working — paste a new one in Sync.' : (navigator.onLine ? "Couldn't sync — will try again." : "Offline — will sync when you're back online.");
+    if (String(e.message) === '404') { try { localStorage.removeItem(GIST_KEY); } catch(x) {} }
+    paintSync();
+  }
+  syncing = false;
+  if (again) { again = false; sync(); }
+}
+function syncLabel(){
+  if (!token()) return 'Set up sync';
+  if (SYNC.state === 'busy') return 'Syncing…';
+  if (SYNC.state === 'err') return 'Sync paused';
+  if (SYNC.state === 'ok') return 'Synced ' + timeStr(SYNC.at);
+  return 'Sync';
+}
+function paintSync(){
+  const el = document.getElementById('syncChip');
+  if (el) { el.textContent = syncLabel(); el.className = 'chip ' + (SYNC.state === 'err' || !token() ? 'warn' : ''); }
+  const st = document.getElementById('syncStatus');
+  if (st) st.textContent = SYNC.msg || syncLabel();
+}
+
+// ───── feed (Canvas, grading, club) ─────
+let FEED = { canvas:[], grading:[], events:[] };
+try { FEED = JSON.parse(localStorage.getItem('rubyHubFeed') || 'null') || FEED; } catch(e) {}
+function applyFeed(){
+  let added = 0;
+  (FEED.canvas || []).forEach(c => {
+    if (!inWeek(c.due)) return;
+    const id = 'c:' + c.uid;
+    if (S.tasks[id]) return; // already here (or deleted on purpose)
+    S.tasks[id] = { id, text:c.title, sub:c.course, kind:'school', date:c.due, pool:null, done:false, u:1 };
+    added++;
+  });
+  if (added) save();
+}
+function loadFeed(){
+  if (!CK) return Promise.resolve();
+  return fetch('feed.enc?t=' + now(), { cache:'no-store' })
+    .then(r => r.ok ? r.text() : null)
+    .then(t => t ? decStr(t).then(JSON.parse) : null)
+    .then(j => { if (j) { FEED = j; try { localStorage.setItem('rubyHubFeed', JSON.stringify(j)); } catch(e){} } })
+    .catch(() => {})
+    .finally(() => { applyFeed(); render(); });
+}
+function refreshAll(){ toast('Refreshing…'); loadFeed().then(() => sync()).then(() => toast('Up to date')); }
+
+// ───── quote ─────
+function quote(){
+  let jar = [];
+  try { jar = (JSON.parse(localStorage.getItem('rubyState') || '{}').quotes) || []; } catch(e) {}
+  if (!jar.length) return 'Progress over perfection, always.';
+  const start = new Date(new Date().getFullYear(), 0, 0);
+  const doy = Math.floor((Date.now() - start.getTime()) / 86400000);
+  return jar[doy % jar.length];
+}
+
+// ───── pieces ─────
+function eventsOn(date){ return (FEED.events || []).filter(e => e.date === date && getv(S.ev, e.uid) === 'week'); }
+function itemsFor(date){
+  const own = live().filter(t => t.date === date).sort((a,b) => (a.kind === 'school' ? 0 : 1) - (b.kind === 'school' ? 0 : 1))
+    .map(t => ({ key:'t' + t.id, text:t.text, sub:t.sub, kind:t.kind, done:t.done }));
+  const evs = eventsOn(date).map(e => ({ key:'e' + e.uid, text:e.title, sub:e.where, kind:'club', done:!!getv(S.evDone, e.uid, false) }));
+  return own.concat(evs);
+}
+function checkSvg(color, done){
+  return `<svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="${done?color:'#fff'}" stroke="${color}" stroke-width="2"/>${done?'<path d="M7.5 12.5l3 3 6-6.5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>':''}</svg>`;
+}
+function dayOptions(){ return WEEK.map(d => { const x = parse(d); return `<option value="${d}">${DOW[x.getDay()]} ${x.getDate()}</option>`; }).join(''); }
+function pool(){ return live().filter(t => !t.date && (t.pool === 'leftover' || t.pool === 'someday')); }
+
+let draft = '', somedayDraft = '';
+function dayHTML(date){
+  const d = parse(date);
+  const items = itemsFor(date);
+  const done = items.filter(i => i.done).length;
+  const open = S.open === date;
+  const pct = items.length ? Math.round(done/items.length*100) : 0;
+  const left = items.filter(i => !i.done).map(i => i.text);
+  const preview = items.length ? (left.length ? left.slice(0,2).join(' · ') + (left.length > 2 ? ' +' + (left.length-2) : '') : 'All done!') : 'Free day';
+  let body = '';
+  if (open) {
+    const p = pool();
+    body = `<div class="daybody">
+      ${items.map(i => `<div class="task ${i.done?'done':''}">
+        <button class="chk" data-act="check" data-key="${esc(i.key)}" aria-label="${i.done?'Mark not done':'Mark done'}: ${esc(i.text)}">${checkSvg(COLORS[i.kind]||COLORS.personal, i.done)}</button>
+        <span class="ttext">${esc(i.text)}${i.sub?`<small>${esc(i.sub)}</small>`:''}</span>
+        <button class="x" data-act="off" data-key="${esc(i.key)}" aria-label="Take off this day">×</button>
+      </div>`).join('') || '<div class="empty">Nothing yet — add something below.</div>'}
+      <div class="addrow">
+        <label class="sr" for="draft">New task for ${DOW[d.getDay()]}</label>
+        <input id="draft" placeholder="New task…" value="${esc(draft)}" enterkeyhint="done" autocomplete="off">
+        <button class="btn" data-act="add" data-date="${date}">Add</button>
+      </div>
+      ${p.length ? `<label class="pick">Bring in a leftover or someday task
+        <select data-act="bring" data-date="${date}"><option value="">Choose one…</option>
+        ${p.map(t => `<option value="${esc(t.id)}">${t.pool==='leftover'?'Leftover':'Someday'}: ${esc(t.text)}</option>`).join('')}
+        </select></label>` : ''}
+      <button class="linkbtn" data-act="open" data-date="${date}" style="align-self:flex-start;min-height:36px">Close ${DOW[d.getDay()]}</button>
+    </div>`;
+  }
+  return `<div class="day ${open?'open':''} ${date===TODAY?'today':''}" id="day-${date}">
+    <button class="dayrow" data-act="open" data-date="${date}" aria-expanded="${open}">
+      <span class="dname"><b>${DOW[d.getDay()]}</b><small>${MON[d.getMonth()]} ${d.getDate()}</small></span>
+      <span class="prev">${esc(preview)}</span>
+      <span class="frac"><span>${done}/${items.length}</span><span class="bar"><i style="width:${pct}%"></i></span></span>
+    </button>${body}</div>`;
+}
+
+function weekView(){
+  const days = MINI ? [TODAY] : WEEK;
+  if (MINI) S.open = TODAY;
+  const leftovers = live().filter(t => !t.date && t.pool === 'leftover');
+  const someday = live().filter(t => !t.date && t.pool === 'someday');
+  const opts = dayOptions();
+  const listRow = t => `<div class="prow"><span>${esc(t.text)}</span>
+      <label class="sr" for="ds${esc(t.id)}">Pick a day for ${esc(t.text)}</label>
+      <select class="daysel" id="ds${esc(t.id)}" data-act="assign" data-id="${esc(t.id)}"><option value="">Pick a day</option>${opts}</select>
+      <button class="x" data-act="del" data-id="${esc(t.id)}" aria-label="Delete ${esc(t.text)}">×</button></div>`;
+  return `<div class="card days">${days.map(dayHTML).join('')}</div>
+  ${MINI ? '' : `
+  <div class="card box dashed"><h2>Unfinished from last week</h2>
+    ${leftovers.map(listRow).join('') || '<div class="empty">All caught up!</div>'}
+  </div>
+  <div class="card box"><h2>Someday (no deadline)</h2>
+    ${someday.map(listRow).join('') || '<div class="empty">Nothing here yet.</div>'}
+    <div class="addrow">
+      <label class="sr" for="sdraft">New someday task</label>
+      <input id="sdraft" placeholder="Add a no-deadline task…" value="${esc(somedayDraft)}" enterkeyhint="done" autocomplete="off">
+      <button class="btn" data-act="addsome">Add</button>
+    </div>
+  </div>`}`;
+}
+
+function clubView(){
+  const evs = (FEED.events || []).filter(e => e.date >= WEEK[0] && getv(S.ev, e.uid) !== 'hidden').sort((a,b) => a.date < b.date ? -1 : 1);
+  const hidden = (FEED.events || []).filter(e => getv(S.ev, e.uid) === 'hidden').length;
+  return `<div class="hint">From your Gmail. Add the ones you're going to so they show on My week, or hide the rest.</div>
+  ${evs.map(e => { const on = getv(S.ev, e.uid) === 'week'; return `<div class="card ev">
+    <div class="evtop"><span class="dot" style="background:var(--club)"></span>
+      <span class="t">${esc(e.title)}${e.where?`<small>${esc(e.where)}</small>`:''}</span>
+      <span class="w">${inWeek(e.date) ? DOW[parse(e.date).getDay()] : nice(e.date)}</span></div>
+    <div class="evbtns">
+      <button class="btn ghost ${on?'on':''}" data-act="evtoggle" data-uid="${esc(e.uid)}">${on ? (inWeek(e.date) ? 'On my week · remove' : 'Added · shows that week') : 'Add to my week'}</button>
+      <button class="btn plain" data-act="evhide" data-uid="${esc(e.uid)}">Hide</button>
+    </div></div>`; }).join('') || '<div class="empty">No club events right now.</div>'}
+  ${hidden ? `<button class="linkbtn" data-act="unhide">Show ${hidden} hidden</button>` : ''}`;
+}
+
+function gradingView(){
+  const n = getv(S.graded, WEEKKEY, 0);
+  const items = (FEED.grading || []).filter(g => inWeek(g.due));
+  const next = (FEED.grading || []).filter(g => g.due > WEEK[6]).sort((a,b) => a.due < b.due ? -1 : 1).slice(0, 4);
+  const groups = {};
+  items.forEach(g => (groups[g.course] = groups[g.course] || []).push(g));
+  ['CM-4300','CM-4600','ENGR-1030'].forEach(c => groups[c] = groups[c] || []);
+  return `<div class="card box">
+    <div class="counter"><div style="flex:1"><div class="hint" style="font-weight:700">Graded this week</div><div class="n">${n}</div></div>
+      <button class="round out" data-act="gminus" aria-label="Subtract one graded">−</button>
+      <button class="round" data-act="gplus" aria-label="Add one graded">+</button></div>
+    <button class="hub" data-act="hub">Open grading hub</button>
+    <div class="hint" style="font-size:12px;text-align:center">Locked with your passphrase · opens right here</div>
+  </div>
+  ${Object.keys(groups).sort().map(c => `<div class="card box course">
+    <div style="display:flex;align-items:baseline;gap:8px"><span class="dot" style="background:var(--grade)"></span><h3>${esc(c)}</h3></div>
+    ${groups[c].map(g => `<div class="gi"><b>${DOW[parse(g.due).getDay()]}</b><span>${esc(g.title)}</span></div>`).join('') || '<div class="gi"><b>—</b><span>Nothing coming in this week</span></div>'}
+  </div>`).join('')}
+  ${next.length ? `<div class="card box"><h2>Coming up</h2>${next.map(g => `<div class="gi"><b>${nice(g.due)}</b><span>${esc(g.course)} · ${esc(g.title)}</span></div>`).join('')}</div>` : ''}`;
+}
+
+function syncView(){
+  const has = !!token();
+  return `<button class="back" data-act="tab" data-tab="week">‹ Back to my week</button>
+  <div class="card box"><h2>Sync</h2>
+    <div class="hint">Keeps your phone, Mac, and desktop widget matched. Paste your GitHub sync key once on each device.</div>
+    <div class="hint" id="syncStatus" style="font-weight:800;color:var(--pinkdeep)">${esc(SYNC.msg || syncLabel())}</div>
+    <div class="addrow">
+      <label class="sr" for="tokenIn">Sync key</label>
+      <input id="tokenIn" type="password" placeholder="${has ? 'Saved ✓ — paste a new one to replace' : 'Paste sync key (ghp_…)'}" autocomplete="off">
+      <button class="btn" data-act="savetoken">Save</button>
+    </div>
+    <button class="btn ghost" data-act="refresh">Refresh now</button>
+    ${has ? `<button class="linkbtn" data-act="copylink">Copy widget link (with sync)</button>` : ''}
+    <button class="linkbtn" data-act="forget">Lock this device (asks for passphrase again)</button>
+  </div>`;
+}
+
+function widgetHTML(){
+  const t = parse(TODAY), tmr = ymd(addDays(t, 1));
+  const items = itemsFor(TODAY);
+  const done = items.filter(i => i.done).length;
+  const pct = items.length ? Math.round(done/items.length*100) : 0;
+  const next = itemsFor(tmr).filter(i => !i.done);
+  const grade = (FEED.grading || []).filter(g => g.due === TODAY);
+  const row = i => `<div class="witem ${i.done?'done':''}"><span class="dot" style="background:${COLORS[i.kind]||COLORS.personal}"></span><span>${esc(i.text)}</span></div>`;
+  return `<a href="./" target="_blank" style="text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:8px">
+    <div class="wtop"><b>${DOW[t.getDay()]} ${t.getDate()}</b><span>${done}/${items.length} done</span></div>
+    <div class="wbar"><i style="width:${pct}%"></i></div>
+    ${items.map(row).join('') || '<div class="witem"><span>Free day — nothing due</span></div>'}
+    ${grade.length ? `<div class="wlbl">To grade</div>${grade.map(g => `<div class="witem"><span class="dot" style="background:var(--grade)"></span><span>${esc(g.course)} · ${esc(g.title)}</span></div>`).join('')}` : ''}
+    ${next.length ? `<div class="wlbl">Tomorrow</div>${next.slice(0,3).map(row).join('')}` : ''}
+    <div class="wq">“${esc(quote())}”</div>
+  </a>`;
+}
+
+function lockHTML(){
+  if (WIDGET) return '<div class="wq" style="margin-top:40px">Open Ruby\'s Hub and copy the widget link from Sync to unlock this widget.</div>';
+  return `<div class="top"><h1>Ruby's Hub</h1></div>
+  <div class="quote"><p>“Progress over perfection, always.”</p></div>
+  <div class="card box"><h2>Unlock your hub</h2>
+    <div class="hint">Type your passphrase once on this device. It stays unlocked after that.</div>
+    <form class="addrow" id="unlockForm" onsubmit="return false">
+      <label class="sr" for="passIn">Passphrase</label>
+      <input id="passIn" type="password" placeholder="Passphrase" autocomplete="current-password" enterkeyhint="go">
+      <button class="btn" data-act="unlock">Unlock</button>
+    </form>
+    <div class="hint" id="lockMsg" style="font-weight:800;color:var(--pinkdeep)">${LOCK ? '' : 'Loading…'}</div>
+  </div>`;
+}
+async function doUnlock(){
+  const v = (document.getElementById('passIn') || {}).value || '';
+  const msg = document.getElementById('lockMsg');
+  if (!v || !LOCK) return;
+  if (msg) msg.textContent = 'Unlocking…';
+  if (await unlockWith(v)) { render(); loadFeed().then(() => sync()); }
+  else if (msg) msg.textContent = "That passphrase didn't work — try again.";
+}
+// ───── embedded grading hub ─────
+let HUB_HTML = null;
+async function openHub(){
+  toast('Opening grading hub…');
+  try {
+    if (!HUB_HTML) { const t = await fetch('hub.enc?t=' + now(), { cache:'no-store' }).then(r => { if (!r.ok) throw 0; return r.text(); }); HUB_HTML = await decStr(t); }
+  } catch(e) { toast("Couldn't open the grading hub"); return; }
+  let ov = document.getElementById('hubOverlay');
+  if (!ov) {
+    ov = document.createElement('div'); ov.id = 'hubOverlay';
+    ov.innerHTML = '<div class="hubbar"><button class="back" data-act="closehub">‹ Back to my week</button><span>Grading hub</span></div><iframe id="hubFrame" title="Grading hub"></iframe>';
+    document.body.appendChild(ov);
+  }
+  document.getElementById('hubFrame').srcdoc = HUB_HTML;
+  ov.style.display = 'flex'; document.body.style.overflow = 'hidden';
+  history.pushState({ hub:1 }, '', '#hub');
+  document.getElementById('toast').classList.remove('show');
+}
+function closeHub(fromPop){
+  const ov = document.getElementById('hubOverlay'); if (!ov || ov.style.display === 'none') return false;
+  ov.style.display = 'none'; document.body.style.overflow = '';
+  if (!fromPop) history.back();
+  return true;
+}
+
+function render(){
+  if (!CK) { const f = document.activeElement && document.activeElement.id; document.getElementById('app').innerHTML = lockHTML(); if (f === 'passIn') document.getElementById('passIn').focus(); return; }
+  if (WIDGET) { document.getElementById('app').innerHTML = widgetHTML(); return; }
+  let all = 0, done = 0;
+  WEEK.forEach(d => { const it = itemsFor(d); all += it.length; done += it.filter(i => i.done).length; });
+  const tab = MINI ? 'week' : TAB;
+  const focusId = document.activeElement && document.activeElement.id;
+  document.getElementById('app').innerHTML = `
+    <div class="top"><h1>Ruby's Hub</h1><span class="pill">${done}/${all} this week</span></div>
+    ${tab === 'sync' ? '' : `<div class="quote"><p>“${esc(quote())}”</p></div>`}
+    ${MINI || tab === 'sync' ? '' : `<div class="weekhead"><div><div class="lbl">This week</div><div class="dates">${nice(WEEK[0])} – ${nice(WEEK[6])}</div></div>
+      <div class="headbtns"><button class="chip ${token() && SYNC.state !== 'err' ? '' : 'warn'}" id="syncChip" data-act="tab" data-tab="sync">${esc(syncLabel())}</button>
+      <button class="chip" data-act="refresh" aria-label="Refresh Canvas, club events and sync">↻ Refresh</button></div></div>
+    <div class="tabs" role="tablist">
+      <button role="tab" aria-selected="${tab==='week'}" class="${tab==='week'?'on':''}" data-act="tab" data-tab="week">My week</button>
+      <button role="tab" aria-selected="${tab==='club'}" class="${tab==='club'?'on':''}" data-act="tab" data-tab="club">Club</button>
+      <button role="tab" aria-selected="${tab==='grading'}" class="${tab==='grading'?'on':''}" data-act="tab" data-tab="grading">Grading</button>
+    </div>`}
+    ${tab === 'week' ? weekView() : tab === 'club' ? clubView() : tab === 'grading' ? gradingView() : syncView()}
+    ${MINI ? `<div class="foot"><a href="./" target="_blank">Open full hub</a></div>` :
+    `<div class="foot"><a href="classic.html">Rewards, goals &amp; quote jar</a><span>Canvas + club events updated ${FEED.updated ? nice(FEED.updated) : '—'}</span></div>`}`;
+  if (focusId) { const el = document.getElementById(focusId); if (el && el.tagName === 'INPUT') { el.focus(); const v = el.value; el.value = ''; el.value = v; } }
+}
+
+// ───── tabs + back button (phone swipe-back works too) ─────
+function setTab(t, push){
+  if (t === TAB) { window.scrollTo(0, 0); return; }
+  TAB = t;
+  if (push !== false) history.pushState({ tab:t }, '', t === 'week' ? location.pathname + location.search : '#' + t);
+  render(); window.scrollTo(0, 0);
+}
+window.addEventListener('popstate', () => {
+  if (closeHub(true)) return;
+  const t = (location.hash.match(/^#(week|club|grading|sync)$/) || [])[1] || 'week';
+  TAB = t; render(); window.scrollTo(0, 0);
+});
+
+// ───── toast with undo ─────
+let undoFn = null, toastT = null;
+function toast(msg, undo){
+  undoFn = undo || null;
+  document.getElementById('toastMsg').textContent = msg;
+  document.getElementById('toastUndo').style.display = undo ? '' : 'none';
+  const t = document.getElementById('toast'); t.classList.add('show');
+  clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 3500);
+}
+document.getElementById('toastUndo').addEventListener('click', () => { if (undoFn) { undoFn(); undoFn = null; save(); render(); } document.getElementById('toast').classList.remove('show'); });
+
+// ───── actions ─────
+function task(id){ return S.tasks[id]; }
+function touch(t, patch){ Object.assign(t, patch, { u:now() }); }
+function addTask(date){
+  const text = draft.trim(); if (!text) return;
+  const id = rid(); S.tasks[id] = { id, text, kind:'personal', date, pool:null, done:false, u:now() };
+  draft = ''; save(); render();
+  const el = document.getElementById('draft'); if (el) el.focus();
+}
+function addSomeday(){
+  const text = somedayDraft.trim(); if (!text) return;
+  const id = rid(); S.tasks[id] = { id, text, kind:'personal', date:null, pool:'someday', done:false, u:now() };
+  somedayDraft = ''; save(); render();
+}
+
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  if (b.tagName === 'SELECT') return;
+  const a = b.dataset.act;
+  e.preventDefault();
+  if (a === 'tab') { setTab(b.dataset.tab); return; }
+  if (a === 'refresh') { refreshAll(); return; }
+  if (a === 'hub') { openHub(); return; }
+  if (a === 'closehub') { closeHub(); return; }
+  if (a === 'unlock') { doUnlock(); return; }
+  if (a === 'forget') { try { localStorage.removeItem(KEYSTORE); } catch(x) {} location.reload(); return; }
+  if (a === 'add') { addTask(b.dataset.date); return; }
+  if (a === 'addsome') { addSomeday(); return; }
+  if (a === 'savetoken') {
+    const v = (document.getElementById('tokenIn').value || '').trim();
+    if (!/^(ghp_|github_pat_)/.test(v)) { toast('That doesn’t look like a sync key'); return; }
+    try { localStorage.setItem(TOKEN_KEY, v); localStorage.removeItem(GIST_KEY); } catch(x) {}
+    toast('Saved — syncing…'); sync().then(() => render()); return;
+  }
+  if (a === 'copylink') {
+    let kk = ''; try { kk = localStorage.getItem(KEYSTORE) || ''; } catch(x) {}
+    const link = location.origin + location.pathname + '?widget=1#sync=' + token() + '&key=' + kk;
+    (navigator.clipboard ? navigator.clipboard.writeText(link) : Promise.reject()).then(() => toast('Widget link copied')).catch(() => toast('Couldn’t copy — ask Claude for the link'));
+    return;
+  }
+  if (a === 'open') {
+    const d = b.dataset.date; S.open = S.open === d ? null : d; draft = '';
+    save(true); render();
+    if (S.open) { const el = document.getElementById('day-' + d); if (el && el.getBoundingClientRect().top < 0) el.scrollIntoView({ block:'start' }); }
+    return;
+  }
+  if (a === 'check') {
+    const k = b.dataset.key;
+    if (k[0] === 't') { const t = task(k.slice(1)); touch(t, { done: !t.done }); if (t.done && navigator.vibrate) navigator.vibrate(15); }
+    else { const u = k.slice(1); setv(S.evDone, u, !getv(S.evDone, u, false)); }
+  }
+  else if (a === 'off') {
+    const k = b.dataset.key;
+    if (k[0] === 't') { const t = task(k.slice(1)); const prev = { date:t.date, pool:t.pool }; touch(t, { date:null, pool:'someday', done:false }); toast('Moved to Someday', () => touch(t, prev)); }
+    else { const u = k.slice(1); setv(S.ev, u, 'club'); toast('Back on the Club tab', () => setv(S.ev, u, 'week')); }
+  }
+  else if (a === 'del') { const t = task(b.dataset.id); touch(t, { del:true }); toast('Deleted', () => touch(t, { del:false })); }
+  else if (a === 'evtoggle') { const u = b.dataset.uid; setv(S.ev, u, getv(S.ev, u) === 'week' ? 'club' : 'week'); }
+  else if (a === 'evhide') { const u = b.dataset.uid; setv(S.ev, u, 'hidden'); toast('Hidden', () => setv(S.ev, u, 'club')); }
+  else if (a === 'unhide') { Object.keys(S.ev).forEach(k => { if (S.ev[k].v === 'hidden') setv(S.ev, k, 'club'); }); }
+  else if (a === 'gplus') { setv(S.graded, WEEKKEY, getv(S.graded, WEEKKEY, 0) + 1); }
+  else if (a === 'gminus') { setv(S.graded, WEEKKEY, Math.max(0, getv(S.graded, WEEKKEY, 0) - 1)); }
+  save(); render();
+});
+document.addEventListener('change', e => {
+  const s = e.target; if (!s.dataset || !s.value) return;
+  if (s.dataset.act === 'bring') { touch(task(s.value), { date:s.dataset.date, pool:null }); }
+  else if (s.dataset.act === 'assign') { touch(task(s.dataset.id), { date:s.value, pool:null }); S.open = s.value; toast('Added to ' + DOW[parse(s.value).getDay()]); }
+  else return;
+  save(); render();
+});
+document.addEventListener('input', e => {
+  if (e.target.id === 'draft') draft = e.target.value;
+  if (e.target.id === 'sdraft') somedayDraft = e.target.value;
+});
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Enter') return;
+  if (e.target.id === 'draft') { e.preventDefault(); addTask(S.open); }
+  if (e.target.id === 'sdraft') { e.preventDefault(); addSomeday(); }
+  if (e.target.id === 'passIn') { e.preventDefault(); doUnlock(); }
+});
+// Coming back to the app: new day → reload; otherwise pull the latest from your other devices
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) return;
+  if (ymd(new Date()) !== TODAY) { location.reload(); return; }
+  sync();
+});
+setInterval(() => { if (!document.hidden) sync(); }, WIDGET ? 5 * 60 * 1000 : 60 * 1000);
+if (WIDGET) setInterval(() => location.reload(), 30 * 60 * 1000);
+
+render();
+fetch('lock.json?t=' + now(), { cache:'no-store' }).then(r => r.json()).then(async j => {
+  LOCK = j;
+  if (await unlockSaved()) { render(); loadFeed().then(() => sync()); }
+  else render();
+}).catch(() => { const m = document.getElementById('lockMsg'); if (m) m.textContent = "Can't reach the hub right now — check your internet."; });
+if ('serviceWorker' in navigator && !WIDGET) navigator.serviceWorker.register('./sw.js').catch(() => {});
+</script>
+</body>
+</html>

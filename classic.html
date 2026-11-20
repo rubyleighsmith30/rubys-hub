@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Ruby's Hub">
+<meta name="theme-color" content="#EDE4F7">
+<link rel="manifest" href="manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<title>Ruby's Hub</title>
+<style>
+:root {
+  --bg: #FFF8FA;
+  --surface: #FFFFFF;
+  --surface2: #FFF3F8;
+  --border: #F5DCE8;
+  --text: #4A2635;
+  --muted: #C08BA0;
+  --pink: #F06FAA;
+  --pink-light: #F79CC5;
+  --pink-deep: #C4497F;
+  --glow: rgba(240,111,170,0.25);
+  --plum: #3E2A4E;
+  --lav: #EDE4F7;
+  --muted-lav: #8E77A6;
+  --card-shadow: 0 3px 10px rgba(240,111,170,.10);
+  --serif: 'DM Serif Display', Georgia, serif;
+  --school: #8A63C9;
+  --work: #D14B87;
+  --personal: #3E9C7B;
+  --admin: #C45BB0;
+}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html, body { height:100%; overflow-x:hidden; }
+body {
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+.header { padding:16px 20px 8px; background:var(--lav); position:sticky; top:0; z-index:50; border-radius:0 0 34px 34px; }
+.header-row { display:flex; align-items:center; gap:10px; }
+.header-row h1 { font-family:var(--serif); font-weight:400; font-size:25px; color:var(--plum); }
+.header-row h1 .spark { color:var(--pink); }
+.streak-pill { background:#fff; color:#C4497F; font-weight:800; font-size:0.8rem; border-radius:999px; padding:4px 11px; box-shadow:var(--card-shadow); }
+.level-mini { margin-left:auto; font-size:0.72rem; color:var(--muted-lav); font-weight:700; text-align:right; }
+.quote-line { font-family:var(--serif); font-style:italic; font-size:15.5px; color:#5C4470; text-align:center; margin:10px 6px 2px; line-height:1.45; }
+.xp-row { display:flex; align-items:center; gap:10px; margin-top:10px; }
+.xp-bar-track { flex:1; height:12px; background:#fff; border-radius:999px; overflow:hidden; }
+.xp-bar-fill {
+  height:100%; border-radius:999px;
+  background: linear-gradient(90deg, #F06FAA, #F79CC5);
+  transition: width 0.8s cubic-bezier(.34,1.56,.64,1);
+  position:relative; overflow:hidden;
+}
+.xp-bar-fill::after {
+  content:''; position:absolute; top:0; left:-100%; width:100%; height:100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+  animation: shimmer 2.4s infinite;
+}
+@keyframes shimmer { to { left:100%; } }
+.xp-mini { font-size:0.72rem; font-weight:800; color:var(--muted-lav); }
+.stats-line { text-align:center; font-size:0.78rem; color:var(--muted-lav); margin-top:8px; font-weight:600; }
+.stats-line b { font-family:var(--serif); font-weight:400; color:var(--plum); font-size:0.95rem; }
+.drag-handle { width:44px; height:5px; border-radius:999px; background:#C9B8DC; margin:10px auto 2px; cursor:pointer; }
+
+.tabs {
+  position:fixed; bottom:0; left:0; right:0; z-index:60;
+  display:flex; justify-content:space-around; gap:0;
+  background:#fff; border-top:1px solid #FBD9E7;
+  padding:9px 2px calc(9px + env(safe-area-inset-bottom));
+}
+.tab { flex:1; min-width:0; padding:4px 2px; border:none; background:transparent; font-size:0.66rem; font-weight:800; color:#B4788F; opacity:.45; cursor:pointer; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-align:center; transition:.15s; }
+.tab.active { color:var(--pink); opacity:1; font-weight:900; }
+
+.main { padding:16px 20px 130px; }
+
+.cat-grid { display:flex; flex-direction:column; gap:14px; }
+.cat-card { background:var(--surface); border-radius:22px; box-shadow:var(--card-shadow); overflow:hidden; }
+.cat-head { display:flex; align-items:center; justify-content:space-between; padding:13px 16px; border-bottom:1px solid var(--border); }
+.cat-head-left { display:flex; align-items:center; gap:9px; }
+.cat-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
+.cat-head h2 { font-family:var(--serif); font-weight:400; font-size:1rem; color:var(--plum); }
+.cat-count { font-size:0.66rem; font-weight:800; color:var(--muted-lav); background:var(--lav); border-radius:999px; padding:3px 9px; }
+.add-btn { background:transparent; border:none; color:var(--muted); font-size:1.3rem; cursor:pointer; padding:0 4px; line-height:1; transition:.15s; }
+.add-btn:hover { color:var(--pink); }
+
+.task-list { padding:10px 12px; display:flex; flex-direction:column; gap:6px; min-height:40px; }
+.empty { font-size:0.78rem; color:var(--muted); text-align:center; padding:10px 0 6px; }
+
+.task-item { display:flex; align-items:flex-start; gap:9px; padding:10px 11px; border-radius:16px; background:var(--surface2); transition:.15s; }
+.task-item.done { background:#FFF3F8; }
+.task-item.done .task-text { text-decoration:line-through; color:#C79DB1; }
+.task-check { border:none; background:transparent; flex-shrink:0; cursor:pointer; font-size:24px; line-height:1; color:var(--pink); margin-top:-2px; width:auto; height:auto; display:block; }
+.task-check::before { content:'☆'; }
+.task-check.on::before { content:'★'; text-shadow:0 0 10px rgba(240,111,170,.45); }
+.task-check.on { animation:starPop .3s ease; }
+@keyframes starPop { 0%{transform:scale(.6)} 60%{transform:scale(1.3)} 100%{transform:scale(1)} }
+.task-body { flex:1; min-width:0; }
+.task-text { font-family:var(--serif); font-size:16.5px; line-height:1.35; color:var(--plum); word-break:break-word; }
+.task-tags { display:flex; gap:5px; margin-top:6px; flex-wrap:wrap; }
+.tag { font-size:10px; padding:3px 9px; border-radius:999px; font-weight:800; letter-spacing:.03em; }
+.tag-now   { background:#FDE3EE; color:#D14B87; }
+.tag-soon  { background:#F1E9FC; color:#8A63C9; }
+.tag-later { background:#E2F5EC; color:#3E9C7B; }
+.tag-high  { background:#F1E9FC; color:#8A63C9; }
+.tag-low   { background:#E7EEFB; color:#4A7BC9; }
+.tag-quick { background:#FDE7F1; color:#C4497F; }
+.task-del { background:transparent; border:none; color:transparent; cursor:pointer; font-size:0.75rem; padding:2px 3px; border-radius:6px; transition:.15s; flex-shrink:0; margin-top:1px; }
+.task-item:hover .task-del { color:var(--muted); }
+.task-del:hover { background:#FDE3EE; color:#D14B87 !important; }
+.task-item.vanish { opacity:0; transform:translateX(30px) scale(.9); transition:all .4s ease; }
+.task-prog { display:flex; align-items:center; gap:8px; margin-top:7px; }
+.task-prog-track { flex:1; height:8px; background:#FBD9E7; border-radius:999px; overflow:hidden; }
+.task-prog-fill { height:100%; background:var(--pink); border-radius:999px; transition:width .4s ease; }
+.task-prog-pct { font-size:0.65rem; color:var(--pink-deep); font-weight:800; min-width:32px; text-align:right; }
+.task-prog-note { font-size:0.68rem; color:#C08BA0; margin-top:3px; }
+.popup-undo { margin-top:10px; background:transparent; border:none; color:var(--muted); font-size:0.72rem; cursor:pointer; text-decoration:underline; font-family:inherit; display:none; }
+.popup-undo:hover { color:var(--pink-deep); }
+
+.done-toggle { width:100%; margin-top:16px; padding:10px; border:none; background:transparent; color:var(--muted-lav); font-size:0.8rem; font-weight:700; cursor:pointer; font-family:inherit; text-decoration:underline; }
+#doneList { margin-top:8px; display:none; flex-direction:column; gap:6px; }
+.done-date { font-size:0.62rem; color:#C79DB1; margin-top:3px; font-weight:700; }
+
+.add-form { padding:0 12px 12px; display:none; }
+.add-form.open { display:block; }
+.add-form-inner { background:var(--surface2); border:1.5px solid var(--pink-light); border-radius:16px; padding:11px; display:flex; flex-direction:column; gap:8px; }
+.add-input { background:transparent; border:none; outline:none; color:var(--text); font-size:0.9rem; width:100%; font-family:inherit; resize:none; min-height:34px; }
+.add-input::placeholder { color:var(--muted); }
+.add-opts { display:flex; gap:6px; flex-wrap:wrap; }
+.opt-sel { background:#fff; border:1px solid var(--border); color:var(--text); border-radius:10px; padding:4px 7px; font-size:0.72rem; cursor:pointer; outline:none; font-family:inherit; }
+.add-actions { display:flex; gap:6px; justify-content:flex-end; }
+.btn-cancel { background:transparent; border:1px solid var(--border); color:var(--muted); border-radius:999px; padding:6px 14px; font-size:0.78rem; font-weight:700; cursor:pointer; font-family:inherit; }
+.btn-save { background:var(--pink); border:none; color:#fff; border-radius:999px; padding:6px 16px; font-size:0.78rem; cursor:pointer; font-family:inherit; font-weight:800; }
+
+.timing-view, .energy-view, .rewards-view, .profile-view, .goals-view { display:none; }
+.section-title { font-family:var(--serif); font-weight:400; font-size:15px; color:var(--muted-lav); margin-bottom:10px; display:flex; align-items:center; gap:8px; }
+.section-title::after { content:''; flex:1; height:1px; background:var(--border); }
+.timing-section { margin-bottom:24px; }
+.ptask { display:flex; align-items:center; gap:10px; padding:11px 13px; background:var(--surface); border-radius:16px; box-shadow:var(--card-shadow); margin-bottom:7px; }
+.cat-pill { font-size:10px; padding:3px 9px; border-radius:999px; font-weight:800; flex-shrink:0; }
+.ptask-text { flex:1; font-family:var(--serif); font-size:0.95rem; color:var(--plum); }
+
+.energy-cols { display:flex; flex-direction:column; gap:16px; }
+.ecol { background:var(--surface); border-radius:22px; box-shadow:var(--card-shadow); overflow:hidden; }
+.ecol-head { padding:12px 15px; border-bottom:1px solid var(--border); font-family:var(--serif); font-size:0.95rem; }
+.ecol-list { padding:10px 12px; display:flex; flex-direction:column; gap:6px; }
+.etask { padding:9px 10px; background:var(--surface2); border-radius:12px; }
+.etask-text { font-family:var(--serif); font-size:0.92rem; color:var(--plum); }
+.etask-meta { font-size:0.65rem; color:var(--muted); margin-top:3px; font-weight:700; }
+
+.reward-hero { background:linear-gradient(135deg, #F7ECFB, #FFEAF4); border-radius:22px; box-shadow:var(--card-shadow); padding:24px 20px; text-align:center; margin-bottom:20px; position:relative; overflow:hidden; }
+.reward-hero::before {
+  content:''; position:absolute; top:-40px; left:50%; transform:translateX(-50%);
+  width:180px; height:180px; border-radius:50%;
+  background:radial-gradient(circle, rgba(240,111,170,0.14), transparent 70%);
+}
+.reward-hero h2 { font-family:var(--serif); font-weight:400; font-size:1.05rem; color:var(--pink-deep); margin-bottom:4px; }
+.reward-hero .pts { font-family:var(--serif); font-size:2.5rem; color:var(--pink); line-height:1.1; }
+.reward-hero .pts-label { font-size:0.75rem; color:var(--muted); margin-top:2px; }
+.scratch-btn {
+  margin-top:16px; padding:12px 28px; font-size:0.9rem; font-weight:800;
+  background: linear-gradient(135deg, var(--pink), var(--pink-light));
+  border:none; color:#fff; border-radius:999px; cursor:pointer;
+  box-shadow:0 4px 18px var(--glow); transition:transform .15s, box-shadow .15s; font-family:inherit;
+}
+.scratch-btn:hover { transform:scale(1.04); box-shadow:0 6px 26px var(--glow); }
+.scratch-btn:disabled { opacity:.5; cursor:default; transform:none; }
+
+.rewards-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-bottom:20px; }
+.reward-card { background:var(--surface); border-radius:22px; box-shadow:var(--card-shadow); padding:14px 12px; text-align:center; position:relative; overflow:hidden; }
+.reward-card.locked { opacity:.6; }
+.reward-card.unlocked { border:1.5px solid var(--pink-light); }
+.reward-card .r-icon { font-size:1.6rem; margin-bottom:6px; }
+.reward-card .r-title { font-family:var(--serif); font-size:0.85rem; color:var(--plum); }
+.reward-card .r-pts { font-size:0.68rem; color:var(--muted); margin-top:3px; }
+.reward-card .r-lock { font-size:0.65rem; color:var(--pink); margin-top:4px; font-weight:800; }
+.lock-icon { position:absolute; top:8px; right:8px; font-size:0.7rem; color:var(--muted); }
+
+.wishlist-section { margin-top:20px; }
+.wishlist-intro { font-size:0.82rem; color:var(--muted); margin-bottom:12px; line-height:1.5; }
+.wish-item { display:flex; align-items:center; gap:10px; padding:11px 13px; background:var(--surface); border-radius:16px; box-shadow:var(--card-shadow); margin-bottom:7px; }
+.wish-emoji { font-size:1.2rem; flex-shrink:0; }
+.wish-body { flex:1; }
+.wish-name { font-family:var(--serif); font-size:0.9rem; color:var(--plum); }
+.wish-pts { font-size:0.7rem; color:var(--pink-deep); margin-top:2px; font-weight:700; }
+.wish-del { background:transparent; border:none; color:var(--muted); cursor:pointer; font-size:0.8rem; }
+.add-wish-btn { width:100%; padding:11px; border:1.5px dashed var(--border); border-radius:16px; background:transparent; color:var(--muted); font-size:0.82rem; font-weight:700; cursor:pointer; font-family:inherit; transition:.15s; margin-top:4px; }
+.add-wish-btn:hover { border-color:var(--pink); color:var(--pink); }
+
+.goals-intro { font-size:0.8rem; color:var(--muted); line-height:1.5; margin-bottom:18px; }
+.orb-grid { display:flex; flex-wrap:wrap; justify-content:center; gap:26px 18px; padding:10px 0 24px; }
+.goal-orb-wrap { display:flex; flex-direction:column; align-items:center; gap:7px; width:150px; cursor:pointer; position:relative; }
+.goal-orb { position:relative; border-radius:50%; animation:orbPulse 3.4s ease-in-out infinite; }
+.orb-glow { position:absolute; inset:-28%; border-radius:50%; filter:blur(14px); }
+.orb-core { position:absolute; inset:0; border-radius:50%; }
+.orb-emoji { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; }
+.orb-img { position:absolute; inset:0; margin:auto; width:62%; height:62%; object-fit:contain; border-radius:50%; }
+@keyframes orbPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.045)} }
+@media (prefers-reduced-motion: reduce) { .goal-orb { animation:none; } }
+.orb-name { font-family:var(--serif); font-size:0.88rem; color:var(--plum); text-align:center; }
+.orb-stage { font-size:0.66rem; color:var(--muted-lav); text-align:center; font-weight:700; }
+.orb-del { position:absolute; top:-2px; right:6px; background:transparent; border:none; color:transparent; cursor:pointer; font-size:0.75rem; padding:2px 4px; }
+.goal-orb-wrap:hover .orb-del { color:var(--muted); }
+.color-swatches { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin:4px 0; }
+.swatch { width:34px; height:34px; border-radius:50%; cursor:pointer; border:2px solid transparent; transition:.15s; }
+.swatch.selected { border-color:var(--plum); transform:scale(1.12); box-shadow:0 0 12px var(--glow); }
+.img-btn-row { display:flex; align-items:center; gap:8px; justify-content:center; }
+#goalImgPreview { width:44px; height:44px; object-fit:contain; display:none; }
+.goal-stats { font-size:0.72rem; color:var(--muted-lav); margin-top:6px; font-weight:700; }
+.popup-goal { font-size:0.82rem; color:var(--pink-deep); margin-bottom:4px; font-weight:700; }
+
+.profile-section { margin-bottom:24px; }
+.profile-q { font-family:var(--serif); font-size:0.92rem; color:var(--plum); margin-bottom:8px; }
+.profile-input { width:100%; background:#fff; border:1.5px solid var(--border); border-radius:14px; padding:10px 12px; color:var(--text); font-size:0.85rem; font-family:inherit; outline:none; resize:none; }
+.profile-input:focus { border-color:var(--pink); }
+.profile-tags-row { display:flex; gap:6px; flex-wrap:wrap; }
+.ptag { padding:6px 13px; border-radius:999px; font-size:0.78rem; font-weight:700; border:1px solid var(--border); background:#fff; color:var(--muted); cursor:pointer; transition:.15s; }
+.ptag.selected { background:var(--pink); border-color:var(--pink); color:#fff; }
+.save-profile-btn { width:100%; margin-top:8px; padding:12px; font-size:0.85rem; font-weight:800; background: linear-gradient(135deg, var(--pink), var(--pink-light)); border:none; color:#fff; border-radius:999px; cursor:pointer; font-family:inherit; }
+.quote-item { display:flex; align-items:center; gap:8px; background:#fff; border-radius:14px; box-shadow:var(--card-shadow); padding:10px 12px; margin-bottom:7px; }
+.quote-item .qt { flex:1; font-family:var(--serif); font-style:italic; font-size:0.88rem; color:#5C4470; cursor:pointer; }
+.quote-item .qdel { background:transparent; border:none; color:var(--muted); cursor:pointer; }
+
+.popup-overlay { position:fixed; inset:0; background:rgba(62,42,78,0.34); display:flex; align-items:center; justify-content:center; z-index:200; opacity:0; pointer-events:none; transition:opacity .3s; padding:20px; }
+.popup-overlay.open { opacity:1; pointer-events:all; }
+.popup-box { background:#fff; border-radius:26px; box-shadow:0 10px 40px rgba(240,111,170,.25); padding:32px 24px; text-align:center; max-width:340px; width:100%; transform:scale(0.85); transition:transform .4s cubic-bezier(.34,1.56,.64,1); position:relative; overflow:hidden; }
+.popup-overlay.open .popup-box { transform:scale(1); }
+.popup-glow { position:absolute; top:-60px; left:50%; transform:translateX(-50%); width:200px; height:200px; border-radius:50%; background:radial-gradient(circle, rgba(240,111,170,0.14), transparent 70%); pointer-events:none; }
+.popup-emoji { font-size:3.5rem; margin-bottom:12px; animation:bounce .6s ease; }
+@keyframes bounce { 0%,100%{transform:scale(1)} 50%{transform:scale(1.2)} }
+.popup-title { font-family:var(--serif); font-size:1.25rem; color:var(--plum); margin-bottom:6px; }
+.popup-body { font-size:0.85rem; color:var(--muted-lav); line-height:1.5; margin-bottom:8px; }
+.popup-xp { font-family:var(--serif); font-size:1.35rem; color:var(--pink); margin:10px 0; }
+.popup-reward-reveal { background:var(--surface2); border:1.5px solid var(--pink-light); border-radius:16px; padding:14px; margin:12px 0; font-size:0.88rem; color:var(--pink-deep); line-height:1.5; }
+.popup-close { margin-top:8px; padding:11px 30px; font-size:0.85rem; font-weight:800; background: linear-gradient(135deg, var(--pink), var(--pink-light)); border:none; color:#fff; border-radius:999px; cursor:pointer; font-family:inherit; }
+
+.install-banner { background:var(--surface); border-radius:16px; box-shadow:var(--card-shadow); padding:12px 14px; display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+.install-banner p { font-size:0.78rem; color:var(--muted-lav); line-height:1.4; flex:1; }
+.install-banner p strong { color:var(--pink-deep); }
+.install-close { background:transparent; border:none; color:var(--muted); cursor:pointer; font-size:1rem; }
+</style>
+</head>
+<body>
+
+<div class="header" id="appHeader">
+  <div class="header-row">
+    <h1>Ruby's Hub <span class="spark">✦</span></h1>
+    <span class="streak-pill">🔥 <span id="streakNum">0</span></span>
+    <span class="level-mini" id="levelMini">Lv 1 · Spark ✨</span>
+  </div>
+  <div id="headerExtra">
+    <div class="quote-line" id="quoteLine"></div>
+    <div class="xp-row">
+      <div class="xp-bar-track"><div class="xp-bar-fill" id="xpFill" style="width:0%"></div></div>
+      <span class="xp-mini" id="xpLabel">0/100</span>
+    </div>
+    <div class="stats-line"><b id="statTasks">0</b> done today · <b id="statPoints">0</b> total XP</div>
+  </div>
+  <div class="drag-handle" id="dragHandle" onclick="toggleHeader()"></div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('tasks')">📋 Tasks</div>
+  <div class="tab" onclick="switchTab('goals')">🔮 Goals</div>
+  <div class="tab" onclick="switchTab('timing')">⏰ Timing</div>
+  <div class="tab" onclick="switchTab('energy')">⚡ Energy</div>
+  <div class="tab" onclick="switchTab('rewards')">🎁 Rewards</div>
+  <div class="tab" onclick="switchTab('profile')">💖 Profile</div>
+</div>
+
+<div class="main">
+
+<div class="install-banner" id="installBanner" style="display:none">
+  <span>📱</span>
+  <p><strong>Add to Home Screen!</strong> Open in Safari → Share → "Add to Home Screen" to use as an app.</p>
+  <button class="install-close" onclick="document.getElementById('installBanner').style.display='none'">✕</button>
+</div>
+
+<div id="tasksView">
+  <div class="cat-grid" id="catGrid"></div>
+  <button class="done-toggle" id="doneToggle" onclick="toggleDoneList()">🌸 Show my finished tasks</button>
+  <div id="doneList"></div>
+</div>
+
+<div id="goalsView" class="goals-view">
+  <div class="section-title">Your constellation 🔮</div>
+  <p class="goals-intro">Every task you link to a goal feeds its orb with light. Orbs grow forever — this is
+  continuous improvement, not a finish line. A dim orb isn't failure, it's just hungry. 💖</p>
+  <div class="orb-grid" id="orbGrid"></div>
+  <button class="add-wish-btn" onclick="openAddGoal()">+ Add a goal orb</button>
+</div>
+
+<div id="timingView" class="timing-view">
+  <div class="timing-section"><div class="section-title">🔴 Now — urgent</div><div id="pNow"></div></div>
+  <div class="timing-section"><div class="section-title">🟡 Soon — this week</div><div id="pSoon"></div></div>
+  <div class="timing-section"><div class="section-title">🟢 Later — on the radar</div><div id="pLater"></div></div>
+</div>
+
+<div id="energyView" class="energy-view">
+  <div class="energy-cols">
+    <div class="ecol"><div class="ecol-head" style="color:#8A63C9">🧠 High Focus — sit down and grind</div><div class="ecol-list" id="eHigh"></div></div>
+    <div class="ecol"><div class="ecol-head" style="color:#4A7BC9">☁️ Low Effort — half-asleep mode</div><div class="ecol-list" id="eLow"></div></div>
+    <div class="ecol"><div class="ecol-head" style="color:#C4497F">⚡ Quick Win — under 5 min</div><div class="ecol-list" id="eQuick"></div></div>
+  </div>
+</div>
+
+<div id="rewardsView" class="rewards-view">
+  <div class="reward-hero">
+    <div class="popup-glow"></div>
+    <h2>Your reward bank 💖</h2>
+    <div class="pts" id="rewardPts">0</div>
+    <div class="pts-label">points earned</div>
+    <button class="scratch-btn" id="scratchBtn" onclick="openScratch()">✨ Surprise Me!</button>
+    <div style="font-size:0.72rem;color:var(--muted);margin-top:8px" id="scratchHint">Complete tasks to earn surprise rewards</div>
+  </div>
+  <div style="margin-bottom:12px">
+    <div class="section-title">Reward milestones</div>
+    <div class="rewards-grid" id="rewardsGrid"></div>
+  </div>
+  <div class="wishlist-section">
+    <div class="section-title">Your wishlist 🛍️</div>
+    <div class="wishlist-intro">Things you want — I'll use this to give you personalized reward ideas when you hit milestones!</div>
+    <div id="wishlistItems"></div>
+    <button class="add-wish-btn" onclick="openAddWish()">+ Add something you want</button>
+  </div>
+</div>
+
+<div id="profileView" class="profile-view">
+  <div style="margin-bottom:20px">
+    <div class="section-title">Tell me about you 💖</div>
+    <p style="font-size:0.8rem;color:var(--muted);line-height:1.5;margin-bottom:16px">The more I know, the better I can surprise you with rewards that actually mean something to you.</p>
+  </div>
+  <div class="profile-section">
+    <div class="profile-q">What are your go-to treats? 🍰</div>
+    <div class="profile-tags-row" id="treatTags">
+      <div class="ptag" onclick="toggleTag(this)">Starbucks ☕</div>
+      <div class="ptag" onclick="toggleTag(this)">Boba 🧋</div>
+      <div class="ptag" onclick="toggleTag(this)">Sephora 💄</div>
+      <div class="ptag" onclick="toggleTag(this)">Amazon haul 📦</div>
+      <div class="ptag" onclick="toggleTag(this)">New outfit 👗</div>
+      <div class="ptag" onclick="toggleTag(this)">Nails 💅</div>
+      <div class="ptag" onclick="toggleTag(this)">Skincare 🧴</div>
+      <div class="ptag" onclick="toggleTag(this)">Takeout 🍜</div>
+      <div class="ptag" onclick="toggleTag(this)">Books 📚</div>
+      <div class="ptag" onclick="toggleTag(this)">Music/Spotify 🎵</div>
+    </div>
+  </div>
+  <div class="profile-section">
+    <div class="profile-q">What do you shop for most? 🛍️</div>
+    <div class="profile-tags-row" id="shopTags">
+      <div class="ptag" onclick="toggleTag(this)">Clothes</div>
+      <div class="ptag" onclick="toggleTag(this)">Beauty</div>
+      <div class="ptag" onclick="toggleTag(this)">Tech</div>
+      <div class="ptag" onclick="toggleTag(this)">Home decor</div>
+      <div class="ptag" onclick="toggleTag(this)">Fitness</div>
+      <div class="ptag" onclick="toggleTag(this)">Stationery</div>
+      <div class="ptag" onclick="toggleTag(this)">Food/snacks</div>
+    </div>
+  </div>
+  <div class="profile-section">
+    <div class="profile-q">What motivates you most right now? 🌟</div>
+    <div class="profile-tags-row" id="motiveTags">
+      <div class="ptag" onclick="toggleTag(this)">Graduating 🎓</div>
+      <div class="ptag" onclick="toggleTag(this)">Career goals 💼</div>
+      <div class="ptag" onclick="toggleTag(this)">Feeling organized</div>
+      <div class="ptag" onclick="toggleTag(this)">Self-care</div>
+      <div class="ptag" onclick="toggleTag(this)">Saving money</div>
+      <div class="ptag" onclick="toggleTag(this)">Leveling up</div>
+    </div>
+  </div>
+  <div class="profile-section">
+    <div class="profile-q">What apps/sites do you open most?</div>
+    <div class="profile-tags-row" id="appTags">
+      <div class="ptag" onclick="toggleTag(this)">TikTok</div>
+      <div class="ptag" onclick="toggleTag(this)">Instagram</div>
+      <div class="ptag" onclick="toggleTag(this)">Pinterest</div>
+      <div class="ptag" onclick="toggleTag(this)">YouTube</div>
+      <div class="ptag" onclick="toggleTag(this)">Amazon</div>
+      <div class="ptag" onclick="toggleTag(this)">Spotify</div>
+      <div class="ptag" onclick="toggleTag(this)">SHEIN/Temu</div>
+      <div class="ptag" onclick="toggleTag(this)">Depop/ThredUp</div>
+    </div>
+  </div>
+  <div class="profile-section">
+    <div class="profile-q">My quote jar 💌</div>
+    <p style="font-size:0.75rem;color:var(--muted);margin-bottom:8px;line-height:1.5">One quote from your jar appears under the header each day. Tap a quote to edit it.</p>
+    <div id="quoteList"></div>
+    <textarea class="profile-input" id="quoteInput" rows="2" placeholder="Words that lift you up..."></textarea>
+    <button class="save-profile-btn" onclick="addQuote()">Add to my jar 💌</button>
+  </div>
+  <div class="profile-section">
+    <div class="profile-q">Celebration sounds 🔔</div>
+    <div class="profile-tags-row"><div class="ptag" id="soundToggle" onclick="toggleSound()">Sounds on 🔊</div></div>
+  </div>
+  <div class="profile-section">
+    <div class="profile-q">Anything else I should know about you? ✨</div>
+    <textarea class="profile-input" id="profileNotes" rows="3" placeholder="e.g. I'm a construction management student, I love pink, I want to land a full-time job after graduation..."></textarea>
+  </div>
+  <button class="save-profile-btn" onclick="saveProfile()">Save my profile 💖</button>
+</div>
+
+</div>
+
+<div class="popup-overlay" id="popup">
+  <div class="popup-box">
+    <div class="popup-glow"></div>
+    <div class="popup-emoji" id="popupEmoji">🎉</div>
+    <div class="popup-title" id="popupTitle">You did it!</div>
+    <div class="popup-body" id="popupBody"></div>
+    <div class="popup-xp" id="popupXP">+10 XP</div>
+    <div class="popup-goal" id="popupGoal" style="display:none"></div>
+    <div class="popup-reward-reveal" id="popupReward" style="display:none"></div>
+    <button class="popup-close" onclick="closePopup()">Yay! 🎀</button>
+    <div><button class="popup-undo" id="popupUndo" onclick="undoComplete()">Oops, accidental tap — undo</button></div>
+  </div>
+</div>
+
+<div class="popup-overlay" id="goalPopup">
+  <div class="popup-box">
+    <div class="popup-title" id="goalPopupTitle">New goal orb 🔮</div>
+    <div class="goal-stats" id="goalStats" style="display:none"></div>
+    <div style="margin:16px 0;display:flex;flex-direction:column;gap:10px">
+      <input id="goalEmoji" class="profile-input" placeholder="Emoji (e.g. ✈️)" maxlength="4" style="font-size:1.2rem;text-align:center">
+      <input id="goalName" class="profile-input" placeholder="What are you growing? (e.g. Travel more)">
+      <div class="img-btn-row">
+        <img id="goalImgPreview" alt="">
+        <label class="btn-cancel" style="cursor:pointer">📸 Use my own image<input type="file" id="goalImgFile" accept="image/*" style="display:none" onchange="goalImgPicked(this)"></label>
+        <button class="btn-cancel" id="goalImgClear" style="display:none" onclick="clearGoalImg()">✕ remove</button>
+      </div>
+      <div class="color-swatches" id="goalSwatches"></div>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button class="btn-cancel" onclick="closeGoalPopup()">Cancel</button>
+      <button class="btn-save" onclick="saveGoal()">Light it up ✨</button>
+    </div>
+  </div>
+</div>
+
+<div class="popup-overlay" id="wishPopup">
+  <div class="popup-box">
+    <div class="popup-title">Add to your wishlist 🛍️</div>
+    <div style="margin:16px 0;display:flex;flex-direction:column;gap:10px">
+      <input id="wishEmoji" class="profile-input" placeholder="Emoji (e.g. 👗)" maxlength="4" style="font-size:1.2rem;text-align:center">
+      <input id="wishName" class="profile-input" placeholder="What is it? (e.g. New Stanley cup)">
+      <input id="wishPts" class="profile-input" type="number" placeholder="Point goal (e.g. 500)" min="50">
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button class="btn-cancel" onclick="closeWishPopup()">Cancel</button>
+      <button class="btn-save" onclick="saveWish()">Add it ✨</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const CATEGORIES = [
+  { id:'school',   label:'School & Coursework', color:'#8A63C9', icon:'📚', xp:15 },
+  { id:'work',     label:'Work & Internship',   color:'#D14B87', icon:'💼', xp:20 },
+  { id:'personal', label:'Personal Goals',       color:'#3E9C7B', icon:'🌱', xp:10 },
+  { id:'admin',    label:'Admin & Life',         color:'#C45BB0', icon:'🗂️', xp:8  },
+];
+const CAT_STYLES = {
+  school:   { bg:'#F1E9FC', color:'#8A63C9' },
+  work:     { bg:'#FDE3EE', color:'#D14B87' },
+  personal: { bg:'#E2F5EC', color:'#3E9C7B' },
+  admin:    { bg:'#FAE6F6', color:'#C45BB0' },
+};
+
+// ── Starter examples — seeded ONLY on the very first open, never re-added after that ──
+const STARTER_TASKS = [
+  { id:'t0', cat:'school',   text:'Tell Claude your first real school task to add here!',       timing:'later', energy:'high',  done:false },
+  { id:'t1', cat:'work',     text:'Tell Claude your first work task — e.g. "submit timesheet"', timing:'soon',  energy:'quick', done:false },
+  { id:'t2', cat:'personal', text:'Tell Claude a personal goal — e.g. "walk 3x this week"',     timing:'later', energy:'low',   done:false },
+  { id:'t3', cat:'admin',    text:'Tell Claude an admin task — e.g. "pay rent"',                timing:'now',   energy:'quick', done:false },
+];
+let TASKS = [];
+
+const MILESTONES = [
+  { icon:'☕', title:'Treat yourself',     desc:'Grab a Starbucks or boba — you earned it!',                pts:50,  xpRequired:50  },
+  { icon:'💅', title:'Nail appointment',   desc:'Book that nail appointment you\'ve been eyeing.',           pts:150, xpRequired:150 },
+  { icon:'🛍️', title:'Mini shopping haul', desc:'Buy that one thing in your cart you keep eyeing.',          pts:300, xpRequired:300 },
+  { icon:'✨', title:'Big reward',         desc:'Something from your wishlist — your choice!',               pts:500, xpRequired:500 },
+];
+
+const BASE_REWARDS = [
+  { emoji:'☕', msg:'Treat yourself to a Starbucks or boba run!' },
+  { emoji:'💄', msg:'Pick one thing from Sephora — even just a lip gloss.' },
+  { emoji:'🛁', msg:'Tonight is a full skincare + self-care night. You deserve it.' },
+  { emoji:'🎵', msg:'Make a new playlist and vibe. Productivity unlocked.' },
+  { emoji:'🍜', msg:'Order your favorite takeout — no cooking tonight.' },
+  { emoji:'💅', msg:'Time to get your nails done. You worked hard.' },
+  { emoji:'📦', msg:'Add something to your Amazon cart that\'s been sitting there.' },
+  { emoji:'🧋', msg:'Boba run. No debate.' },
+  { emoji:'🌸', msg:'Take a full hour to do absolutely nothing. Guilt-free.' },
+  { emoji:'👗', msg:'Browse your favorite store — maybe treat yourself to one thing.' },
+  { emoji:'🎀', msg:'30 minutes of Pinterest spiral. You\'ve earned it.' },
+  { emoji:'🏆', msg:'You\'re crushing it. Screenshot your progress and celebrate!' },
+];
+
+let state = JSON.parse(localStorage.getItem('rubyState') || '{}');
+if (!state.xp)          state.xp = 0;
+if (!state.tasksToday)  state.tasksToday = 0;
+if (!state.streak)      state.streak = 0;
+if (!state.lastDate)    state.lastDate = '';
+if (!state.rewardPts)   state.rewardPts = 0;
+if (!state.wishlist)    state.wishlist = [];
+if (!state.profile)     state.profile = {};
+if (!Array.isArray(state.quotes)) state.quotes = [];
+if (!Array.isArray(state.done))   state.done = [];
+function saveState() { state.tasks = TASKS.map(t=>({...t})); localStorage.setItem('rubyState', JSON.stringify(state)); }
+// Tasks: localStorage is the single source of truth.
+// Starter examples appear only on the very first open (no saved tasks yet);
+// after that, adds/deletes/completions all live in saved state and stick.
+if (Array.isArray(state.tasks)) {
+  // done tasks vanish for good — filter any lingering ones from older versions
+  TASKS = state.tasks.filter(t => !t.done).map(t => ({...t}));
+} else {
+  TASKS = STARTER_TASKS.map(t => ({...t}));
+  saveState();
+}
+
+// ── Goal orbs: light accumulates forever (continuous improvement, no finish line).
+// size = lifetime light, brightness = recent momentum. Seeded with Ruby's real goals.
+const GOAL_COLORS = ['#FFD98E','#7FE0C3','#F06FAA','#C9A8F0','#8FB8F0','#F5E6EE','#FFB3D0','#A8E6CF'];
+if (!Array.isArray(state.goals)) {
+  state.goals = [
+    { id:'g1', name:'Career & Graduation',   emoji:'🎓', color:'#FFD98E', light:0, lastFed:null },
+    { id:'g2', name:'Body & Health',          emoji:'💪', color:'#7FE0C3', light:0, lastFed:null },
+    { id:'g3', name:'Becoming My Best Self',  emoji:'🌱', color:'#F06FAA', light:0, lastFed:null },
+    { id:'g4', name:'Organized Life',         emoji:'🧺', color:'#C9A8F0', light:0, lastFed:null },
+    { id:'g5', name:'Faith & Spirit',         emoji:'🕊️', color:'#8FB8F0', light:0, lastFed:null },
+    { id:'g6', name:'Future Home & Car',      emoji:'🏡', color:'#F5E6EE', light:0, lastFed:null },
+  ];
+  saveState();
+}
+
+const LEVELS = [
+  { min:0,   max:100,  name:'Spark ✨' },
+  { min:100, max:250,  name:'Rising ⭐' },
+  { min:250, max:500,  name:'Glowing 🌸' },
+  { min:500, max:900,  name:'Blazing 🔥' },
+  { min:900, max:1500, name:'Unstoppable 💪' },
+  { min:1500,max:9999, name:'Legendary 👑' },
+];
+function getLevel(xp) { return LEVELS.find(l => xp >= l.min && xp < l.max) || LEVELS[LEVELS.length-1]; }
+
+function checkStreak() {
+  const today = new Date().toDateString();
+  if (state.lastDate === today) return;
+  const yesterday = new Date(Date.now()-86400000).toDateString();
+  if (state.lastDate === yesterday) { state.streak++; }
+  else if (state.lastDate && state.lastDate !== yesterday) { state.streak = 1; }
+  else { state.streak = state.streak || 0; }
+  state.tasksToday = 0;
+  state.lastDate = today;
+  saveState();
+}
+
+function renderHeader() {
+  const lvl = getLevel(state.xp);
+  const pct = Math.min(100, Math.round(((state.xp - lvl.min) / (lvl.max - lvl.min)) * 100));
+  document.getElementById('levelMini').textContent = `Lv ${LEVELS.indexOf(lvl)+1} · ${lvl.name}`;
+  document.getElementById('xpLabel').textContent = `${state.xp - lvl.min}/${lvl.max - lvl.min}`;
+  document.getElementById('xpFill').style.width = pct + '%';
+  document.getElementById('statTasks').textContent = state.tasksToday;
+  document.getElementById('statPoints').textContent = state.xp;
+  document.getElementById('streakNum').textContent = state.streak;
+  document.getElementById('quoteLine').textContent = dailyQuote();
+}
+
+// ── Quote jar: one of Ruby's own quotes per day, rotating by day-of-year ──
+function dailyQuote() {
+  const jar = state.quotes || [];
+  if (!jar.length) return 'Add quotes to your jar in Profile 💌';
+  const start = new Date(new Date().getFullYear(), 0, 0);
+  const doy = Math.floor((Date.now() - start.getTime()) / 86400000);
+  return `“${jar[doy % jar.length]}” 💌`;
+}
+function buildQuoteList() {
+  const el = document.getElementById('quoteList');
+  el.innerHTML = (state.quotes||[]).map((q,i) => `
+    <div class="quote-item">
+      <div class="qt" onclick="editQuote(${i})">“${esc(q)}”</div>
+      <button class="qdel" onclick="delQuote(${i})">✕</button>
+    </div>`).join('') || '<div class="empty">Your jar is empty — add your first quote! 💌</div>';
+}
+function addQuote() {
+  const inp = document.getElementById('quoteInput');
+  const q = inp.value.trim();
+  if (!q) return;
+  state.quotes.push(q); saveState(); inp.value = '';
+  buildQuoteList(); renderHeader(); showQuickToast('Added to your jar 💌');
+}
+function delQuote(i) { state.quotes.splice(i,1); saveState(); buildQuoteList(); renderHeader(); }
+function editQuote(i) {
+  document.getElementById('quoteInput').value = state.quotes[i];
+  state.quotes.splice(i,1); saveState(); buildQuoteList();
+}
+
+// ── Collapsible header: tap the handle (or swipe up/down on the header) ──
+function toggleHeader() {
+  state.headerCollapsed = !state.headerCollapsed;
+  saveState(); applyHeaderState();
+}
+function applyHeaderState() {
+  document.getElementById('headerExtra').style.display = state.headerCollapsed ? 'none' : 'block';
+}
+
+// ── Finished tasks: they vanish from the list but collect quietly here ──
+let doneOpen = false;
+function toggleDoneList() {
+  doneOpen = !doneOpen;
+  document.getElementById('doneList').style.display = doneOpen ? 'flex' : 'none';
+  updateDoneToggle();
+  if (doneOpen) buildDoneList();
+}
+function updateDoneToggle() {
+  const n = (state.done||[]).length;
+  document.getElementById('doneToggle').textContent =
+    doneOpen ? '🌸 Hide my finished tasks' : `🌸 Show my finished tasks${n ? ` (${n})` : ''}`;
+}
+function buildDoneList() {
+  document.getElementById('doneList').innerHTML = (state.done||[]).map(t => `
+    <div class="task-item done">
+      <div class="task-check on"></div>
+      <div class="task-body">
+        <div class="task-text">${esc(t.text)}</div>
+        <div class="done-date">${new Date(t.doneAt).toLocaleDateString('en-US',{month:'short',day:'numeric'})}</div>
+      </div>
+    </div>`).join('') || '<div class="empty">Nothing finished yet — your wins will collect here 🌸</div>';
+}
+
+function buildCatGrid() {
+  const grid = document.getElementById('catGrid');
+  grid.innerHTML = '';
+  CATEGORIES.forEach(cat => {
+    const tasks = TASKS.filter(t => t.cat === cat.id);
+    const active = tasks.filter(t => !t.done).length;
+    const card = document.createElement('div');
+    card.className = 'cat-card';
+    card.innerHTML = `
+      <div class="cat-head">
+        <div class="cat-head-left">
+          <div class="cat-dot" style="background:${cat.color}"></div>
+          <h2>${cat.icon} ${cat.label}</h2>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="cat-count">${active} active</span>
+          <button class="add-btn" onclick="toggleForm('${cat.id}')">+</button>
+        </div>
+      </div>
+      <div class="task-list" id="list-${cat.id}">
+        ${tasks.length ? tasks.map(t => taskHTML(t)).join('') : '<div class="empty">Nothing yet — tell Claude or tap + to add!</div>'}
+      </div>
+      <div class="add-form" id="form-${cat.id}">
+        <div class="add-form-inner">
+          <textarea class="add-input" id="inp-${cat.id}" placeholder="What needs doing?" rows="2"></textarea>
+          <div class="add-opts">
+            <select class="opt-sel" id="tim-${cat.id}">
+              <option value="now">🔴 Now</option>
+              <option value="soon" selected>🟡 Soon</option>
+              <option value="later">🟢 Later</option>
+            </select>
+            <select class="opt-sel" id="nrg-${cat.id}">
+              <option value="high">🧠 High Focus</option>
+              <option value="low">☁️ Low Effort</option>
+              <option value="quick" selected>⚡ Quick Win</option>
+            </select>
+            <select class="opt-sel" id="typ-${cat.id}">
+              <option value="">✅ One-tap done</option>
+              <option value="progress">📊 Big task — track %</option>
+            </select>
+            <select class="opt-sel" id="gol-${cat.id}">
+              <option value="">🔮 No goal</option>
+              ${(state.goals||[]).map(g=>`<option value="${g.id}">${g.emoji} ${esc(g.name)}</option>`).join('')}
+            </select>
+          </div>
+          <div class="add-actions">
+            <button class="btn-cancel" onclick="toggleForm('${cat.id}')">Cancel</button>
+            <button class="btn-save" onclick="addTask('${cat.id}')">Add ✨</button>
+          </div>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function taskHTML(t) {
+  const tmap = {now:'tag-now',soon:'tag-soon',later:'tag-later'};
+  const tlbl = {now:'🔴 Now',soon:'🟡 Soon',later:'🟢 Later'};
+  const emap = {high:'tag-high',low:'tag-low',quick:'tag-quick'};
+  const elbl = {high:'🧠 High Focus',low:'☁️ Low Effort',quick:'⚡ Quick Win'};
+  const progNote = t.progress >= 75 ? `${t.progress}% there — almost done! ✨`
+    : t.progress >= 50 ? `${t.progress}% there — over halfway! 💪`
+    : t.progress > 0 ? `${t.progress}% there — great start! 🌸`
+    : 'Tap the star to add 25% ✨';
+  const prog = t.progress != null ? `<div class="task-prog">
+        <div class="task-prog-track"><div class="task-prog-fill" style="width:${t.progress}%"></div></div>
+        <span class="task-prog-pct">${t.progress}%</span>
+      </div><div class="task-prog-note">${progNote}</div>` : '';
+  return `<div class="task-item" id="item-${t.id}">
+    <div class="task-check" onclick="checkTask('${t.id}')" title="${t.progress!=null?'Tap to add 25% progress':'Tap to complete'}"></div>
+    <div class="task-body">
+      <div class="task-text">${esc(t.text)}</div>
+      <div class="task-tags">
+        <span class="tag ${tmap[t.timing]||'tag-later'}">${tlbl[t.timing]||t.timing}</span>
+        <span class="tag ${emap[t.energy]||'tag-high'}">${elbl[t.energy]||t.energy}</span>
+      </div>${prog}
+    </div>
+    <button class="task-del" onclick="delTask('${t.id}')">✕</button>
+  </div>`;
+}
+
+function buildTimingView() {
+  ['now','soon','later'].forEach(tim => {
+    const el = document.getElementById('p' + cap(tim));
+    const tasks = TASKS.filter(t => t.timing === tim && !t.done);
+    el.innerHTML = tasks.length ? tasks.map(t => {
+      const cat = CATEGORIES.find(c => c.id === t.cat);
+      const cs = CAT_STYLES[t.cat];
+      return `<div class="ptask"><span class="cat-pill" style="background:${cs.bg};color:${cs.color}">${cat.icon} ${cat.label}</span><span class="ptask-text">${esc(t.text)}</span></div>`;
+    }).join('') : '<div class="empty">Nothing here 🌸</div>';
+  });
+}
+
+function buildEnergyView() {
+  [['high','eHigh'],['low','eLow'],['quick','eQuick']].forEach(([nrg,id]) => {
+    const el = document.getElementById(id);
+    const tasks = TASKS.filter(t => t.energy === nrg && !t.done);
+    el.innerHTML = tasks.length ? tasks.map(t => {
+      const cat = CATEGORIES.find(c => c.id === t.cat);
+      return `<div class="etask"><div class="etask-text">${esc(t.text)}</div><div class="etask-meta">${cat.icon} ${cat.label}</div></div>`;
+    }).join('') : '<div class="empty">Nothing here 🌸</div>';
+  });
+}
+
+function buildRewardsView() {
+  document.getElementById('rewardPts').textContent = state.rewardPts;
+  const btn = document.getElementById('scratchBtn');
+  const hint = document.getElementById('scratchHint');
+  if (state.rewardPts >= 50) { btn.disabled = false; hint.textContent = '🎀 You have enough points — surprise yourself!'; }
+  else { btn.disabled = true; hint.textContent = `Complete ${Math.ceil((50-state.rewardPts)/10)} more tasks to unlock a surprise`; }
+  document.getElementById('rewardsGrid').innerHTML = MILESTONES.map(m => {
+    const unlocked = state.rewardPts >= m.xpRequired;
+    return `<div class="reward-card ${unlocked?'unlocked':'locked'}">${!unlocked?'<span class="lock-icon">🔒</span>':''}
+      <div class="r-icon">${m.icon}</div><div class="r-title">${m.title}</div>
+      <div class="r-pts">${m.pts} pts</div>
+      <div class="r-lock">${unlocked?'✅ Unlocked!':`${m.xpRequired-state.rewardPts} pts away`}</div></div>`;
+  }).join('');
+  const wl = document.getElementById('wishlistItems');
+  wl.innerHTML = state.wishlist.length ? state.wishlist.map((w,i) => `
+    <div class="wish-item">
+      <div class="wish-emoji">${w.emoji}</div>
+      <div class="wish-body"><div class="wish-name">${esc(w.name)}</div>
+      <div class="wish-pts">${w.pts} pts goal ${state.rewardPts>=w.pts?'✅':`· ${w.pts-state.rewardPts} to go`}</div></div>
+      <button class="wish-del" onclick="delWish(${i})">✕</button>
+    </div>`).join('') : '<div class="empty">Add things you want — I\'ll use them as rewards! 🎀</div>';
+}
+
+// ── Goal orb helpers ──
+function goalStage(l) {
+  return l>=2000?'Celestial 🌌':l>=800?'Luminous 👑':l>=300?'Radiant 🔥':l>=100?'Glowing 🌸':l>=30?'Glimmering ⭐':'Spark ✨';
+}
+// grows fast at first, then slower — always room to grow, never "done"
+function orbSize(l) { return Math.min(180, Math.round(60 + 26 * Math.log2(1 + l/20))); }
+// momentum: fed recently = bright; neglected = softly dims (never dies, never red)
+function orbGlowOpacity(g) {
+  if (!g.lastFed) return 0.4;
+  const days = (Date.now() - g.lastFed) / 86400000;
+  return Math.max(0.3, Math.min(1, 1 - days * 0.06));
+}
+function buildGoalsView() {
+  const grid = document.getElementById('orbGrid');
+  grid.innerHTML = (state.goals||[]).map(g => {
+    const size = orbSize(g.light||0);
+    const glow = orbGlowOpacity(g);
+    const face = g.img
+      ? `<img class="orb-img" src="${g.img}" alt="${esc(g.name)}">`
+      : `<span class="orb-emoji" style="font-size:${Math.round(size*0.34)}px">${g.emoji}</span>`;
+    return `<div class="goal-orb-wrap" onclick="openAddGoal('${g.id}')">
+      <button class="orb-del" onclick="event.stopPropagation();delGoal('${g.id}')">✕</button>
+      <div class="goal-orb" style="width:${size}px;height:${size}px">
+        <div class="orb-glow" style="background:radial-gradient(circle, ${g.color} 0%, transparent 70%);opacity:${glow}"></div>
+        <div class="orb-core" style="background:radial-gradient(circle at 35% 30%, rgba(255,255,255,${0.25+glow*0.35}) 0%, transparent 42%), radial-gradient(circle at 50% 50%, ${g.color} 52%, rgba(0,0,0,0.38) 100%);filter:brightness(${0.75+glow*0.4})"></div>
+        ${face}
+      </div>
+      <div class="orb-name">${esc(g.name)}</div>
+      <div class="orb-stage">${goalStage(g.light||0)} · ${g.light||0} light</div>
+    </div>`;
+  }).join('') || '<div class="empty">No orbs yet — add your first goal! 🔮</div>';
+}
+let selectedGoalColor = GOAL_COLORS[0];
+let editingGoalId = null, goalImgData = null;
+function openAddGoal(id) {
+  editingGoalId = id || null;
+  const g = id ? (state.goals||[]).find(x => x.id === id) : null;
+  selectedGoalColor = g ? g.color : GOAL_COLORS[0];
+  goalImgData = g ? (g.img || null) : null;
+  document.getElementById('goalName').value = g ? g.name : '';
+  document.getElementById('goalEmoji').value = g ? g.emoji : '';
+  document.getElementById('goalPopupTitle').textContent = g ? 'Your goal orb 🔮' : 'New goal orb 🔮';
+  const stats = document.getElementById('goalStats');
+  if (g) {
+    const days = g.lastFed ? Math.floor((Date.now()-g.lastFed)/86400000) : null;
+    const fed = days === null ? 'never fed yet — link a task to it!' : days === 0 ? 'fed today 💖' : `last fed ${days} day${days>1?'s':''} ago`;
+    stats.style.display = 'block';
+    stats.textContent = `${goalStage(g.light||0)} · ${g.light||0} light · ${fed}`;
+  } else stats.style.display = 'none';
+  renderGoalImgPreview();
+  document.getElementById('goalSwatches').innerHTML = GOAL_COLORS.map(c =>
+    `<div class="swatch ${c===selectedGoalColor?'selected':''}" style="background:${c};box-shadow:0 0 10px ${c}66" onclick="pickGoalColor('${c}', this)"></div>`).join('');
+  document.getElementById('goalPopup').classList.add('open');
+}
+// Custom orb faces (genmoji, stickers, photos): downscaled to 112px PNG (keeps
+// transparency) and stored in state as a data URL — survives reloads, no server.
+function goalImgPicked(input) {
+  const file = input.files && input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    const img = new Image();
+    img.onload = () => {
+      const c = document.createElement('canvas');
+      const scale = Math.min(1, 112 / Math.max(img.width, img.height));
+      c.width = Math.round(img.width * scale); c.height = Math.round(img.height * scale);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      goalImgData = c.toDataURL('image/png');
+      renderGoalImgPreview();
+    };
+    img.src = reader.result;
+  };
+  reader.readAsDataURL(file);
+  input.value = '';
+}
+function clearGoalImg() { goalImgData = null; renderGoalImgPreview(); }
+function renderGoalImgPreview() {
+  const prev = document.getElementById('goalImgPreview');
+  const clear = document.getElementById('goalImgClear');
+  if (goalImgData) { prev.src = goalImgData; prev.style.display = 'block'; clear.style.display = 'inline'; }
+  else { prev.removeAttribute('src'); prev.style.display = 'none'; clear.style.display = 'none'; }
+}
+function pickGoalColor(c, el) {
+  selectedGoalColor = c;
+  document.querySelectorAll('#goalSwatches .swatch').forEach(s => s.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function closeGoalPopup() { document.getElementById('goalPopup').classList.remove('open'); }
+function saveGoal() {
+  const name = document.getElementById('goalName').value.trim();
+  if (!name) return;
+  const emoji = document.getElementById('goalEmoji').value.trim() || '🔮';
+  if (editingGoalId) {
+    const g = state.goals.find(x => x.id === editingGoalId);
+    if (g) { g.name = name; g.emoji = emoji; g.color = selectedGoalColor; if (goalImgData) g.img = goalImgData; else delete g.img; }
+  } else {
+    const g = { id:'g'+Date.now(), name, emoji, color:selectedGoalColor, light:0, lastFed:null };
+    if (goalImgData) g.img = goalImgData;
+    state.goals.push(g);
+  }
+  saveState(); closeGoalPopup(); buildGoalsView();
+  document.getElementById('goalName').value=''; document.getElementById('goalEmoji').value='';
+  editingGoalId = null; goalImgData = null;
+}
+function delGoal(id) {
+  const i = (state.goals||[]).findIndex(x => x.id === id);
+  if (i > -1) { state.goals.splice(i,1); saveState(); buildGoalsView(); }
+}
+
+function buildProfileView() {
+  const saved = state.profile || {};
+  ['treatTags','shopTags','motiveTags','appTags'].forEach(id => {
+    const key = {treatTags:'treats',shopTags:'shops',motiveTags:'motivators',appTags:'apps'}[id];
+    const arr = saved[key] || [];
+    document.querySelectorAll(`#${id} .ptag`).forEach(el => { if (arr.includes(el.textContent.trim())) el.classList.add('selected'); });
+  });
+  if (saved.notes) document.getElementById('profileNotes').value = saved.notes;
+  updateSoundToggle();
+  buildQuoteList();
+}
+
+// Completed tasks vanish from the list (Ruby prefers a clean view over crossed-out clutter).
+// lastCompleted lets the celebration popup offer an "undo" for accidental taps.
+let lastCompleted = null;
+function checkTask(id) {
+  const t = TASKS.find(x => x.id === id);
+  if (!t) return;
+  const cat = CATEGORIES.find(c => c.id === t.cat);
+  const total = cat ? cat.xp : 10;
+  let xpGain, prevProgress = null;
+  if (t.progress != null) {
+    // Big task: each tap = +25%, XP drips in proportionally so partial wins count
+    prevProgress = t.progress;
+    t.progress = Math.min(100, t.progress + 25);
+    xpGain = Math.round(total * t.progress / 100) - Math.round(total * prevProgress / 100);
+  } else {
+    xpGain = total;
+  }
+  const ptGain = Math.ceil(xpGain * 0.8);
+  state.xp += xpGain; state.rewardPts += ptGain;
+  // every bit of earned XP also feeds the linked goal orb with light
+  let fedGoal = null, prevLastFed = null;
+  if (t.goal) {
+    fedGoal = (state.goals||[]).find(g => g.id === t.goal);
+    if (fedGoal) { prevLastFed = fedGoal.lastFed; fedGoal.light = (fedGoal.light||0) + xpGain; fedGoal.lastFed = Date.now(); }
+  }
+  if (t.progress != null && t.progress < 100) {
+    saveState();
+    hapticBuzz();
+    showQuickToast(`📊 ${t.progress}% done — +${xpGain} XP!${fedGoal ? ` ${fedGoal.emoji} orb glows brighter ✨` : ' Keep chipping 💪'}`);
+    rebuildAll();
+    return;
+  }
+  // Fully done: celebrate, then the task fades away for good
+  state.tasksToday++;
+  if (!state.lastDate) { state.lastDate = new Date().toDateString(); state.streak = 1; }
+  TASKS.splice(TASKS.findIndex(x => x.id === t.id), 1);
+  state.done.unshift({ ...t, doneAt: Date.now() });
+  if (state.done.length > 50) state.done.length = 50; // keep history light
+  saveState();
+  lastCompleted = { task: t, xpGain, ptGain, prevProgress, fedGoal, prevLastFed };
+  hapticBuzz();
+  playChime();
+  showTaskPopup(t, xpGain, ptGain, fedGoal);
+  if (Math.random() < 0.3 && state.tasksToday > 1) setTimeout(dropConfetti, 400);
+  const el = document.getElementById('item-' + t.id);
+  if (el) el.classList.add('vanish');
+  setTimeout(rebuildAll, 450);
+}
+
+function undoComplete() {
+  closePopup();
+  if (!lastCompleted) return;
+  const { task, xpGain, ptGain, prevProgress, fedGoal, prevLastFed } = lastCompleted;
+  lastCompleted = null;
+  if (prevProgress != null) task.progress = prevProgress;
+  if (fedGoal) { fedGoal.light = Math.max(0, (fedGoal.light||0) - xpGain); fedGoal.lastFed = prevLastFed; }
+  const di = state.done.findIndex(x => x.id === task.id);
+  if (di > -1) state.done.splice(di, 1);
+  state.xp = Math.max(0, state.xp - xpGain);
+  state.rewardPts = Math.max(0, state.rewardPts - ptGain);
+  state.tasksToday = Math.max(0, state.tasksToday - 1);
+  TASKS.push(task);
+  saveState();
+  rebuildAll();
+  showQuickToast('No worries — task is back! 🌸');
+}
+
+function showTaskPopup(task, xp, pts, fedGoal) {
+  const msgs = [
+    ['🌸','Task crushed!','One step closer to your goals. Keep going!'],
+    ['✨','You\'re glowing!','That ADHD brain just hyperfocused on a W.'],
+    ['🎀','Look at you go!','Task complete. The dopamine is real today.'],
+    ['💖','Yes queen!','You did the thing. Every task counts.'],
+    ['🔥','On fire!','Streak energy is building. Don\'t stop now.'],
+  ];
+  const [emoji,title,body] = msgs[Math.floor(Math.random()*msgs.length)];
+  document.getElementById('popupEmoji').textContent = emoji;
+  document.getElementById('popupTitle').textContent = title;
+  document.getElementById('popupBody').textContent = body;
+  document.getElementById('popupXP').textContent = `+${xp} XP · +${pts} reward pts`;
+  document.getElementById('popupReward').style.display = 'none';
+  document.getElementById('popupUndo').style.display = 'inline';
+  const pg = document.getElementById('popupGoal');
+  if (fedGoal) { pg.style.display='block'; pg.textContent = `${fedGoal.emoji} Your ${fedGoal.name} orb drank +${xp} light — ${goalStage(fedGoal.light)}!`; }
+  else pg.style.display = 'none';
+  const milestone = MILESTONES.find(m => state.rewardPts >= m.xpRequired && state.rewardPts - pts < m.xpRequired);
+  if (milestone) { const rev = document.getElementById('popupReward'); rev.style.display='block'; rev.textContent=`🎁 Milestone unlocked: ${milestone.icon} ${milestone.title} — ${milestone.desc}`; }
+  openPopup();
+  if (state.tasksToday >= 3) dropConfetti();
+}
+
+function openScratch() {
+  if (state.rewardPts < 50) return;
+  const pool = [...BASE_REWARDS];
+  const prof = state.profile || {};
+  if ((prof.treats||[]).includes('Starbucks ☕')) pool.push({emoji:'☕',msg:'You earned a Starbucks run. Go get your drink, babe.'});
+  if ((prof.treats||[]).includes('Sephora 💄')) pool.push({emoji:'💄',msg:'Time to browse Sephora. One thing, you deserve it.'});
+  if ((prof.treats||[]).includes('Nails 💅')) pool.push({emoji:'💅',msg:'Book a nail appointment. That\'s your reward.'});
+  if (state.wishlist.length > 0) { const w = state.wishlist[Math.floor(Math.random()*state.wishlist.length)]; pool.push({emoji:w.emoji,msg:`Treat yourself to: ${w.name}! You earned it!`}); }
+  const reward = pool[Math.floor(Math.random()*pool.length)];
+  state.rewardPts = Math.max(0,state.rewardPts-50); saveState();
+  document.getElementById('popupEmoji').textContent = reward.emoji;
+  document.getElementById('popupTitle').textContent = '🎁 Your surprise reward!';
+  document.getElementById('popupBody').textContent = 'You worked hard. Here\'s what you get:';
+  document.getElementById('popupXP').textContent = '−50 reward pts';
+  const rev = document.getElementById('popupReward'); rev.style.display='block'; rev.textContent=reward.msg;
+  document.getElementById('popupUndo').style.display = 'none';
+  document.getElementById('popupGoal').style.display = 'none';
+  openPopup(); dropConfetti(); buildRewardsView(); renderHeader();
+}
+
+function delTask(id) { const i=TASKS.findIndex(x=>x.id===id); if(i>-1){TASKS.splice(i,1);saveState();rebuildAll();} }
+function toggleForm(catId) { const f=document.getElementById('form-'+catId); f.classList.toggle('open'); if(f.classList.contains('open')) document.getElementById('inp-'+catId).focus(); }
+function addTask(catId) {
+  const text = document.getElementById('inp-'+catId).value.trim();
+  if (!text) return;
+  const task = {id:'t'+Date.now(),cat:catId,text,timing:document.getElementById('tim-'+catId).value,energy:document.getElementById('nrg-'+catId).value,done:false};
+  if (document.getElementById('typ-'+catId).value === 'progress') task.progress = 0;
+  const goalSel = document.getElementById('gol-'+catId);
+  if (goalSel && goalSel.value) task.goal = goalSel.value;
+  TASKS.push(task);
+  document.getElementById('inp-'+catId).value=''; saveState(); toggleForm(catId); rebuildAll();
+}
+function toggleTag(el) { el.classList.toggle('selected'); }
+function saveProfile() {
+  state.profile = {
+    treats:[...document.querySelectorAll('#treatTags .ptag.selected')].map(e=>e.textContent.trim()),
+    shops:[...document.querySelectorAll('#shopTags .ptag.selected')].map(e=>e.textContent.trim()),
+    motivators:[...document.querySelectorAll('#motiveTags .ptag.selected')].map(e=>e.textContent.trim()),
+    apps:[...document.querySelectorAll('#appTags .ptag.selected')].map(e=>e.textContent.trim()),
+    notes:document.getElementById('profileNotes').value,
+  };
+  saveState(); showQuickToast('Profile saved! 💖');
+}
+function openAddWish() { document.getElementById('wishPopup').classList.add('open'); }
+function closeWishPopup() { document.getElementById('wishPopup').classList.remove('open'); }
+function saveWish() {
+  const emoji=document.getElementById('wishEmoji').value.trim()||'🎁';
+  const name=document.getElementById('wishName').value.trim();
+  const pts=parseInt(document.getElementById('wishPts').value)||200;
+  if(!name) return;
+  state.wishlist.push({emoji,name,pts}); saveState(); closeWishPopup(); buildRewardsView();
+  document.getElementById('wishEmoji').value=''; document.getElementById('wishName').value=''; document.getElementById('wishPts').value='';
+}
+function delWish(i) { state.wishlist.splice(i,1); saveState(); buildRewardsView(); }
+function openPopup() { document.getElementById('popup').classList.add('open'); }
+function closePopup() { document.getElementById('popup').classList.remove('open'); renderHeader(); }
+// ── Celebration FX: one canvas, particles of light (GPU-friendly — no 40 DOM nodes) ──
+let fxCanvas=null, fxCtx=null, fxParts=[], fxRunning=false;
+function reduceMotion() { return window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false; }
+function ensureFx() {
+  if (fxCtx) return true;
+  fxCanvas = document.createElement('canvas');
+  fxCanvas.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:300;';
+  fxCtx = fxCanvas.getContext && fxCanvas.getContext('2d');
+  if (!fxCtx) { fxCanvas = null; return false; }
+  document.body.appendChild(fxCanvas);
+  return true;
+}
+function lightBurst(x, y, color) {
+  if (reduceMotion() || !ensureFx()) return;
+  fxCanvas.width = window.innerWidth; fxCanvas.height = window.innerHeight;
+  for (let i=0; i<32; i++) {
+    const a = Math.random()*Math.PI*2, sp = 1.5+Math.random()*5;
+    fxParts.push({ x, y, vx:Math.cos(a)*sp, vy:Math.sin(a)*sp-1.8, life:0.9+Math.random()*0.4, r:1.5+Math.random()*3, c:color });
+  }
+  if (!fxRunning) { fxRunning = true; requestAnimationFrame(fxTick); }
+}
+function fxTick() {
+  fxCtx.clearRect(0, 0, fxCanvas.width, fxCanvas.height);
+  fxParts = fxParts.filter(p => p.life > 0);
+  fxParts.forEach(p => {
+    p.x += p.vx; p.y += p.vy; p.vy += 0.07; p.life -= 0.018;
+    fxCtx.globalAlpha = Math.max(0, Math.min(1, p.life));
+    fxCtx.fillStyle = p.c; fxCtx.shadowColor = p.c; fxCtx.shadowBlur = 9;
+    fxCtx.beginPath(); fxCtx.arc(p.x, p.y, p.r, 0, 7); fxCtx.fill();
+  });
+  fxCtx.globalAlpha = 1;
+  if (fxParts.length) requestAnimationFrame(fxTick);
+  else { fxRunning = false; fxCtx.clearRect(0, 0, fxCanvas.width, fxCanvas.height); }
+}
+function dropConfetti() {
+  const colors=['#F06FAA','#F79CC5','#FFD98E','#C9A8F0','#8FB8F0','#C4497F'];
+  for (let i=0; i<4; i++) setTimeout(() => lightBurst(
+    window.innerWidth*(0.15+Math.random()*0.7),
+    window.innerHeight*(0.15+Math.random()*0.45),
+    colors[Math.floor(Math.random()*colors.length)]), i*130);
+}
+
+// ── Haptics: iOS Safari has no vibrate API, but toggling a hidden switch checkbox
+// (Safari 17.4+) fires the real haptic engine. Android gets navigator.vibrate. ──
+let hapticEl=null;
+function hapticBuzz() {
+  try {
+    if (navigator.vibrate) { navigator.vibrate(12); return; }
+    if (!hapticEl) {
+      hapticEl = document.createElement('input');
+      hapticEl.type = 'checkbox'; hapticEl.setAttribute('switch','');
+      hapticEl.style.cssText = 'position:fixed;opacity:0;pointer-events:none;';
+      document.body.appendChild(hapticEl);
+    }
+    hapticEl.click();
+  } catch(e) {}
+}
+
+// ── Sparkle chime: synthesized, no audio files. Toggle lives in Profile. ──
+let audioCtx=null;
+function playChime() {
+  if (state.sound === false) return;
+  try {
+    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+    [659.25, 987.77, 1318.5].forEach((f, i) => {
+      const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+      o.type = 'sine'; o.frequency.value = f;
+      const t = audioCtx.currentTime + i*0.08;
+      g.gain.setValueAtTime(0.0001, t);
+      g.gain.exponentialRampToValueAtTime(0.09, t+0.02);
+      g.gain.exponentialRampToValueAtTime(0.0001, t+0.45);
+      o.connect(g); g.connect(audioCtx.destination);
+      o.start(t); o.stop(t+0.5);
+    });
+  } catch(e) {}
+}
+function toggleSound() {
+  state.sound = state.sound === false;
+  saveState(); updateSoundToggle();
+  if (state.sound !== false) playChime();
+}
+function updateSoundToggle() {
+  const el = document.getElementById('soundToggle');
+  if (!el) return;
+  const on = state.sound !== false;
+  el.textContent = on ? 'Sounds on 🔊' : 'Sounds off 🔇';
+  el.classList.toggle('selected', on);
+}
+function showQuickToast(msg) {
+  const t=document.createElement('div'); t.textContent=msg;
+  t.style.cssText='position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--pink-deep);color:#fff;padding:10px 18px;border-radius:20px;font-size:0.8rem;z-index:400;white-space:nowrap;opacity:0;transition:opacity .3s;';
+  document.body.appendChild(t); setTimeout(()=>t.style.opacity='1',10); setTimeout(()=>{t.style.opacity='0';setTimeout(()=>t.remove(),300);},2500);
+}
+
+let currentTab='tasks';
+function switchTab(tab) {
+  currentTab=tab;
+  document.getElementById('tasksView').style.display   = tab==='tasks'  ?'block':'none';
+  document.getElementById('goalsView').style.display   = tab==='goals'  ?'block':'none';
+  document.getElementById('timingView').style.display  = tab==='timing' ?'block':'none';
+  document.getElementById('energyView').style.display  = tab==='energy' ?'block':'none';
+  document.getElementById('rewardsView').style.display = tab==='rewards'?'block':'none';
+  document.getElementById('profileView').style.display = tab==='profile'?'block':'none';
+  document.querySelectorAll('.tab').forEach((el,i)=>{ el.classList.toggle('active',['tasks','goals','timing','energy','rewards','profile'][i]===tab); });
+  if(tab==='goals') buildGoalsView();
+  if(tab==='timing') buildTimingView();
+  if(tab==='energy') buildEnergyView();
+  if(tab==='rewards') buildRewardsView();
+  if(tab==='profile') buildProfileView();
+}
+
+function rebuildAll() { buildCatGrid(); updateDoneToggle(); if(doneOpen)buildDoneList(); if(currentTab==='goals')buildGoalsView(); if(currentTab==='timing')buildTimingView(); if(currentTab==='energy')buildEnergyView(); if(currentTab==='rewards')buildRewardsView(); renderHeader(); }
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
+
+if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
+const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+const isStandalone=window.navigator.standalone;
+if(isIOS&&!isStandalone) document.getElementById('installBanner').style.display='flex';
+
+checkStreak();
+buildCatGrid();
+renderHeader();
+applyHeaderState();
+updateDoneToggle();
+
+// swipe up/down on the header to collapse/expand it
+let headerTouchY = null;
+const headerEl = document.getElementById('appHeader');
+headerEl.addEventListener('touchstart', e => { headerTouchY = e.touches[0].clientY; }, { passive:true });
+headerEl.addEventListener('touchend', e => {
+  if (headerTouchY === null) return;
+  const dy = e.changedTouches[0].clientY - headerTouchY;
+  if (dy < -25 && !state.headerCollapsed) toggleHeader();
+  else if (dy > 25 && state.headerCollapsed) toggleHeader();
+  headerTouchY = null;
+}, { passive:true });
+</script>
+<a href="./" id="backToHub" style="position:fixed;left:14px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:999;background:#E0559A;color:#fff;font:800 14px Nunito,sans-serif;padding:12px 18px;border-radius:999px;text-decoration:none;box-shadow:0 4px 14px rgba(224,85,154,.35)">‹ Back to my week</a>
+</body>
+</html>
